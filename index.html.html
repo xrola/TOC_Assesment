@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أداة التعلم الذاتية - نظرية التغيير</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d3561 0%, #4a5899 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            background: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px auto;
+            max-width: 600px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .question-container {
+            padding: 40px;
+            display: none;
+        }
+
+        .question-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-number {
+            color: #667eea;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #2d3561;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 18px 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateX(-5px);
+        }
+
+        .option.selected {
+            background: #e3e9ff;
+            border-color: #667eea;
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .feedback {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+
+        .feedback-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feedback-text {
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: space-between;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .results {
+            padding: 40px;
+            text-align: center;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .results h2 {
+            font-size: 32px;
+            color: #2d3561;
+            margin-bottom: 20px;
+        }
+
+        .results p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .review-section {
+            margin-top: 40px;
+            text-align: right;
+        }
+
+        .review-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-right: 5px solid #667eea;
+        }
+
+        .review-item.wrong {
+            border-right-color: #dc3545;
+        }
+
+        .review-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2d3561;
+        }
+
+        .review-answer {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .review-answer.user {
+            color: #dc3545;
+        }
+
+        .review-answer.correct {
+            color: #28a745;
+        }
+
+        .start-screen {
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .start-screen h2 {
+            font-size: 32px;
+            color: #2d3561;
+            margin-bottom: 20px;
+        }
+
+        .start-screen p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .start-button {
+            margin-top: 30px;
+            padding: 20px 50px;
+            font-size: 20px;
+        }
+
+        .icon {
+            display: inline-block;
+            font-size: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .question-container, .start-screen, .results {
+                padding: 20px;
+            }
+
+            .question-text {
+                font-size: 18px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 أداة التعلم الذاتية التفاعلية</h1>
+            <p>تقييم الفهم لنظرية التغيير والإطار المنطقي</p>
+        </div>
+
+        <div id="startScreen" class="start-screen">
+            <h2>مرحباً بك في أداة التقييم التفاعلية! 🎯</h2>
+            <p><strong>هذه الأداة مصممة لقياس مستوى فهمك لنظرية التغيير والإطار المنطقي</strong></p>
+            <p>📝 عدد الأسئلة: 15 سؤال متنوع</p>
+            <p>⏱️ لا يوجد حد زمني - خذ وقتك!</p>
+            <p>✅ ستحصل على تغذية راجعة فورية بعد كل إجابة</p>
+            <p>🔄 يمكنك مراجعة جميع إجاباتك في النهاية</p>
+            <p>💡 تعلم من أخطائك وحسّن فهمك!</p>
+            <button class="start-button" onclick="startQuiz()">ابدأ التقييم الآن</button>
+        </div>
+
+        <div class="progress-container" id="progressContainer" style="display: none;">
+            <div>السؤال <span id="currentQuestion">1</span> من <span id="totalQuestions">15</span></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill">0%</div>
+            </div>
+        </div>
+
+        <div id="questionsContainer"></div>
+
+        <div class="results" id="results">
+            <h2>نتائج التقييم</h2>
+            <div class="score-circle" id="scoreCircle">0%</div>
+            <p id="resultMessage"></p>
+            <button onclick="showReview()">مراجعة الإجابات 📋</button>
+            <button class="btn-secondary" onclick="restartQuiz()">إعادة التقييم 🔄</button>
+            
+            <div class="review-section" id="reviewSection" style="display: none;">
+                <h3 style="margin-bottom: 20px; color: #2d3561;">مراجعة تفصيلية للإجابات:</h3>
+                <div id="reviewContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                type: "multiple",
+                question: "ما هو التعريف الأدق لنظرية التغيير؟",
+                options: [
+                    "خطة تفصيلية لأنشطة المشروع فقط",
+                    "خارطة طريق توضح التسلسل المنطقي للنتائج المخططة لتحقيق التغيير المرغوب",
+                    "قائمة بالمستفيدين من المشروع",
+                    "تقرير نهائي عن إنجازات المشروع"
+                ],
+                correct: 1,
+                explanation: "نظرية التغيير هي خارطة طريق استراتيجية توضح التسلسل المنطقي للنتائج التي نريد تحقيقها. تساعدنا على فهم كيف سيحدث التغيير المرغوب من خلال ربط الأنشطة بالمخرجات ثم بالنتائج والأثر النهائي."
+            },
+            {
+                id: 2,
+                type: "true-false",
+                question: "قياس الأثر هو فقط عدّ المستفيدين والأنشطة المنفذة في نهاية المشروع",
+                options: [
+                    "صح",
+                    "خطأ"
+                ],
+                correct: 1,
+                explanation: "خطأ. قياس الأثر هو عملية منهجية شاملة لجمع وتحليل البيانات لفهم التغييرات الفعلية التي أحدثها المشروع على المستفيدين والمجتمع، وليس مجرد إحصاء أعداد. يتطلب قياس الأثر تحليلاً عميقاً للتغييرات النوعية والكمية."
+            },
+            {
+                id: 3,
+                type: "multiple",
+                question: "أي من هذه الأمثلة يمثل 'مخرجات' (Outputs) وليس 'نواتج' (Outcomes)؟",
+                options: [
+                    "تحسن أداء المتدربين في العمل",
+                    "50 متدرب حصل على شهادة تدريبية",
+                    "زيادة رضا العملاء عن الخدمة",
+                    "تطوير مهارات القيادة لدى المشاركين"
+                ],
+                correct: 1,
+                explanation: "المخرجات هي المنتجات والخدمات المباشرة والملموسة التي ننتجها من أنشطتنا (مثل عدد المتدربين، الشهادات، الورش). أما النواتج فهي التغييرات التي تحدث للمستفيدين نتيجة هذه المخرجات (مثل تحسن الأداء، تطوير المهارات)."
+            },
+            {
+                id: 4,
+                type: "multiple",
+                question: "في الإطار المنطقي، ما هو الترتيب الصحيح لبناء المشروع؟",
+                options: [
+                    "الأنشطة ← المخرجات ← النواتج ← الأثر",
+                    "الأثر المرغوب ← النواتج المطلوبة ← المخرجات ← الأنشطة",
+                    "المخرجات ← الأنشطة ← الأثر ← النواتج",
+                    "النواتج ← الأثر ← الأنشطة ← المخرجات"
+                ],
+                correct: 1,
+                explanation: "نبدأ بتحديد الأثر الذي نريد تحقيقه (الهدف الكبير)، ثم نحدد النواتج اللازمة لتحقيقه، ثم المخرجات المطلوبة، وأخيراً نصمم الأنشطة التي ستنتج هذه المخرجات. هذا النهج العكسي يضمن أن كل خطوة مرتبطة بالهدف النهائي."
+            },
+            {
+                id: 5,
+                type: "multiple",
+                question: "ما الذي يميز 'الأثر' (Impact) عن 'النواتج' (Outcomes)؟",
+                options: [
+                    "الأثر أسهل في القياس من النواتج",
+                    "الأثر يحدث بسرعة أكبر من النواتج",
+                    "الأثر تغيير جذري طويل المدى على مستوى أوسع من المستفيدين المباشرين",
+                    "الأثر تحت سيطرتنا المباشرة أكثر من النواتج"
+                ],
+                correct: 2,
+                explanation: "الأثر يتميز بأنه تغيير جذري طويل المدى (عادة سنوات) ويؤثر على مستوى أوسع من المستفيدين المباشرين أو المجتمع ككل. بينما النواتج تكون تغييرات قصيرة إلى متوسطة المدى للمستفيدين المباشرين."
+            },
+            {
+                id: 6,
+                type: "true-false",
+                question: "معايير SMART للمؤشرات تعني: محدد، قابل للقياس، قابل للتحقق، ذو صلة، ومحدد بزمن",
+                options: [
+                    "صح",
+                    "خطأ"
+                ],
+                correct: 0,
+                explanation: "صح. SMART هي اختصار لخمسة معايير أساسية لصياغة المؤشرات الجيدة: Specific (محدد بالكم والجودة والفئة المستهدفة)، Measurable (قابل للقياس بدقة)، Achievable (قابل للتحقيق ضمن الموارد المتاحة)، Relevant (ذو صلة بالتغيير المراد)، Time-bounded (محدد بإطار زمني واضح)."
+            },
+            {
+                id: 7,
+                type: "multiple",
+                question: "أي من هذه المؤشرات يعتبر 'مؤشر كمي'؟",
+                options: [
+                    "مستوى رضا المستفيدين عن الخدمة",
+                    "مدى تحسن قدرة المعلمين على التطبيق",
+                    "نسبة الحضور في البرنامج التدريبي",
+                    "درجة وعي الشباب بالمشاركة المجتمعية"
+                ],
+                correct: 2,
+                explanation: "المؤشر الكمي يقيس الكميات والأعداد بشكل رقمي دقيق. 'نسبة الحضور' هي مؤشر كمي لأنها تُعبر بنسبة مئوية أو رقم. أما بقية الخيارات فهي مؤشرات نوعية تقيس الآراء والتصورات والمستويات النوعية."
+            },
+            {
+                id: 8,
+                type: "multiple",
+                question: "ما هي الفائدة الأساسية لاستخدام نظرية التغيير في المشاريع؟",
+                options: [
+                    "تقليل ميزانية المشروع",
+                    "فهم كيف سيحدث التغيير المرغوب والربط المنطقي بين الأنشطة والأثر",
+                    "تسريع تنفيذ الأنشطة",
+                    "تقليل عدد أصحاب المصلحة"
+                ],
+                correct: 1,
+                explanation: "نظرية التغيير تساعدنا على فهم 'كيف' سيحدث التغيير من خلال إظهار الروابط السببية بين ما نفعله (الأنشطة) وما ننتجه (المخرجات) والتغييرات التي نحدثها (النواتج والأثر). هذا الفهم يحسن التخطيط والتنفيذ والقياس."
+            },
+            {
+                id: 9,
+                type: "true-false",
+                question: "المؤشرات غير المباشرة تقيس التغيير من خلال فحص علامات بديلة مقبولة عموماً",
+                options: [
+                    "صح",
+                    "خطأ"
+                ],
+                correct: 0,
+                explanation: "صح. المؤشرات غير المباشرة (Proxy Indicators) تستخدم عندما يصعب قياس الشيء مباشرة، فنقيس علامات أخرى مرتبطة به. مثلاً: لقياس الأمان في حي، نقيس عدد الحدائق المستخدمة مساءً كمؤشر غير مباشر بدلاً من قياس الأمان مباشرة."
+            },
+            {
+                id: 10,
+                type: "multiple",
+                question: "في أي مرحلة من دورة حياة المشروع يجب بناء الإطار المنطقي؟",
+                options: [
+                    "مرحلة الإغلاق",
+                    "مرحلة التنفيذ",
+                    "مرحلة التخطيط",
+                    "بعد انتهاء المشروع"
+                ],
+                correct: 2,
+                explanation: "الإطار المنطقي يُبنى في مرحلة التخطيط قبل بدء التنفيذ. يساعد في تحديد النتائج المتوقعة والمؤشرات وأدوات القياس منذ البداية، مما يسهل المتابعة والتقييم أثناء وبعد التنفيذ."
+            },
+            {
+                id: 11,
+                type: "multiple",
+                question: "ما هي أفضل ممارسة لتحديد المؤشرات في الإطار المنطقي؟",
+                options: [
+                    "استخدام أكبر عدد ممكن من المؤشرات",
+                    "التركيز على المؤشرات الكمية فقط",
+                    "دمج مؤشرات كمية ونوعية ذات صلة وقابلة للقياس",
+                    "استخدام مؤشرات عامة تناسب أي مشروع"
+                ],
+                correct: 2,
+                explanation: "أفضل ممارسة هي استخدام مزيج متوازن من المؤشرات الكمية (للأرقام) والنوعية (للجودة والتصورات)، بحيث تكون محددة للمشروع، قابلة للقياس عملياً، وذات صلة مباشرة بالنتائج المستهدفة. الجودة أهم من الكمية."
+            },
+            {
+                id: 12,
+                type: "true-false",
+                question: "خط الأساس (Baseline) هو القياس الأولي للوضع قبل بدء المشروع",
+                options: [
+                    "صح",
+                    "خطأ"
+                ],
+                correct: 0,
+                explanation: "صح. خط الأساس هو قياس الوضع الحالي قبل بدء تنفيذ المشروع أو التدخل. يستخدم كنقطة مرجعية لمقارنة التغييرات والتقدم المحرز بعد التنفيذ، ويساعد في تحديد مدى تحقق النتائج المستهدفة."
+            },
+            {
+                id: 13,
+                type: "multiple",
+                question: "أي مما يلي يعتبر 'ناتج' (Outcome) وليس 'مخرج' (Output)؟",
+                options: [
+                    "إصدار 100 كتيب توعوي",
+                    "تنفيذ 5 ورش عمل تدريبية",
+                    "زيادة وعي المجتمع بأهمية التطوع",
+                    "إنشاء منصة إلكترونية جديدة"
+                ],
+                correct: 2,
+                explanation: "زيادة الوعي هي ناتج لأنها تمثل تغيير حدث للمستفيدين (تغير في المعرفة أو السلوك). بينما الكتيبات والورش والمنصة هي مخرجات (منتجات ملموسة). النواتج تجيب على 'ما التغيير الذي حدث؟' بينما المخرجات تجيب على 'ماذا أنتجنا؟'"
+            },
+            {
+                id: 14,
+                type: "multiple",
+                question: "ما الغرض الرئيسي من تحليل البيانات في قياس الأثر؟",
+                options: [
+                    "طباعة التقارير بجودة عالية",
+                    "وضع البيانات وتحويلها إلى معلومات قابلة للاستخدام في اتخاذ القرارات",
+                    "جمع أكبر عدد ممكن من الاستبانات",
+                    "إرسال النتائج للممولين فقط"
+                ],
+                correct: 1,
+                explanation: "الهدف الأساسي من تحليل البيانات هو تحويل البيانات الخام إلى معلومات ذات معنى تساعد في فهم التقدم المحرز واتخاذ قرارات مستنيرة لتحسين المشروع. التحليل الجيد يكشف الأنماط ويقدم رؤى قيمة للتطوير."
+            },
+            {
+                id: 15,
+                type: "multiple",
+                question: "ماذا يجب أن يحدث في مرحلة الإغلاق للمشروع؟",
+                options: [
+                    "وضع الإطار المنطقي",
+                    "بناء أدوات جمع البيانات",
+                    "إصدار تقارير قياس النتائج والأثر وتوثيق الدروس المستفادة",
+                    "تحديد نظرية التغيير"
+                ],
+                correct: 2,
+                explanation: "مرحلة الإغلاق هي المرحلة النهائية حيث نقيم النتائج والأثر الفعلي، نقارنه بالمستهدفات، نوثق الدروس المستفادة والممارسات الجيدة، ونشارك التقارير النهائية مع أصحاب المصلحة. هذا يساعد في التعلم المؤسسي وتحسين المشاريع المستقبلية."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
+        let quizStarted = false;
+
+        function startQuiz() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('progressContainer').style.display = 'block';
+            quizStarted = true;
+            renderQuestions();
+            showQuestion(0);
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-container';
+                questionDiv.id = `question-${index}`;
+
+                questionDiv.innerHTML = `
+                    <div class="question-number">السؤال ${index + 1} من ${questions.length}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options" id="options-${index}">
+                        ${q.options.map((option, optIndex) => `
+                            <div class="option" onclick="selectOption(${index}, ${optIndex})">
+                                <span>${option}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="feedback" id="feedback-${index}">
+                        <div class="feedback-title">
+                            <span class="icon" id="feedbackIcon-${index}"></span>
+                            <span id="feedbackTitle-${index}"></span>
+                        </div>
+                        <div class="feedback-text" id="feedbackText-${index}"></div>
+                    </div>
+                    <div class="buttons">
+                        <button onclick="previousQuestion()" ${index === 0 ? 'style="visibility: hidden;"' : ''}>
+                            السؤال السابق
+                        </button>
+                        <button id="nextBtn-${index}" onclick="nextQuestion()" disabled>
+                            ${index === questions.length - 1 ? 'إنهاء التقييم' : 'السؤال التالي'}
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function showQuestion(index) {
+            document.querySelectorAll('.question-container').forEach(q => q.classList.remove('active'));
+            document.getElementById(`question-${index}`).classList.add('active');
+            currentQuestionIndex = index;
+            updateProgress();
+            document.getElementById('currentQuestion').textContent = index + 1;
+        }
+
+        function selectOption(questionIndex, optionIndex) {
+            const options = document.querySelectorAll(`#options-${questionIndex} .option`);
+            const feedback = document.getElementById(`feedback-${questionIndex}`);
+            const feedbackIcon = document.getElementById(`feedbackIcon-${questionIndex}`);
+            const feedbackTitle = document.getElementById(`feedbackTitle-${questionIndex}`);
+            const feedbackText = document.getElementById(`feedbackText-${questionIndex}`);
+            const nextBtn = document.getElementById(`nextBtn-${questionIndex}`);
+            const question = questions[questionIndex];
+
+            // تعطيل جميع الخيارات بعد الاختيار
+            options.forEach(opt => opt.classList.add('disabled'));
+
+            // حفظ إجابة المستخدم
+            userAnswers[questionIndex] = optionIndex;
+
+            // إظهار الإجابة الصحيحة والخاطئة
+            options[question.correct].classList.add('correct');
+            if (optionIndex !== question.correct) {
+                options[optionIndex].classList.add('incorrect');
+            }
+
+            // إظهار التغذية الراجعة
+            const isCorrect = optionIndex === question.correct;
+            feedback.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+            
+            feedbackIcon.textContent = isCorrect ? '✓' : '✗';
+            feedbackTitle.textContent = isCorrect ? 'إجابة صحيحة! أحسنت' : 'إجابة خاطئة';
+            feedbackText.textContent = question.explanation;
+
+            if (isCorrect) score++;
+
+            // تفعيل زر التالي
+            nextBtn.disabled = false;
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                showQuestion(currentQuestionIndex + 1);
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                showQuestion(currentQuestionIndex - 1);
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = progress + '%';
+            progressFill.textContent = Math.round(progress) + '%';
+        }
+
+        function showResults() {
+            document.getElementById('questionsContainer').style.display = 'none';
+            document.getElementById('progressContainer').style.display = 'none';
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            const resultsDiv = document.getElementById('results');
+            const scoreCircle = document.getElementById('scoreCircle');
+            const resultMessage = document.getElementById('resultMessage');
+
+            scoreCircle.textContent = percentage + '%';
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '🌟 ممتاز جداً! لديك فهم عميق لنظرية التغيير والإطار المنطقي';
+            } else if (percentage >= 75) {
+                message = '👏 جيد جداً! لديك فهم جيد مع مجال للتحسين في بعض المفاهيم';
+            } else if (percentage >= 60) {
+                message = '✓ جيد! هناك بعض المفاهيم تحتاج إلى مزيد من المراجعة';
+            } else {
+                message = '📚 يُنصح بمراجعة المواد التدريبية والتركيز على المفاهيم الأساسية';
+            }
+
+            resultMessage.textContent = `حصلت على ${score} من ${questions.length} (${percentage}%)`;
+            resultMessage.innerHTML += `<br><strong>${message}</strong>`;
+
+            resultsDiv.classList.add('show');
+        }
+
+        function showReview() {
+            const reviewSection = document.getElementById('reviewSection');
+            const reviewContainer = document.getElementById('reviewContainer');
+            reviewContainer.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === q.correct;
+
+                const reviewItem = document.createElement('div');
+                reviewItem.className = `review-item ${!isCorrect ? 'wrong' : ''}`;
+                
+                reviewItem.innerHTML = `
+                    <div class="review-question">
+                        <strong>السؤال ${index + 1}:</strong> ${q.question}
+                    </div>
+                    ${!isCorrect ? `
+                        <div class="review-answer user">
+                            ❌ إجابتك: ${q.options[userAnswer]}
+                        </div>
+                    ` : ''}
+                    <div class="review-answer correct">
+                        ✓ الإجابة الصحيحة: ${q.options[q.correct]}
+                    </div>
+                    <div style="margin-top: 10px; padding: 10px; background: #f0f4ff; border-radius: 8px; font-size: 14px;">
+                        💡 ${q.explanation}
+                    </div>
+                `;
+
+                reviewContainer.appendChild(reviewItem);
+            });
+
+            reviewSection.style.display = 'block';
+            reviewSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            quizStarted = false;
+
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('reviewSection').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'block';
+            document.getElementById('progressContainer').style.display = 'none';
+            document.getElementById('questionsContainer').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
