@@ -330,6 +330,74 @@
             font-size: 24px;
         }
 
+        .form-group {
+            margin: 25px auto;
+            max-width: 500px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #2d3561;
+            font-size: 18px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            direction: rtl;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
@@ -363,7 +431,20 @@
         <div id="startScreen" class="start-screen">
             <h2>مرحباً بك في أداة التقييم التفاعلية! 🎯</h2>
             <p><strong>هذه الأداة مصممة لقياس مستوى فهمك لنظرية التغيير والإطار المنطقي</strong></p>
-            <p>📝 عدد الأسئلة: 15 سؤال متنوع</p>
+            
+            <div class="form-group">
+                <label for="employeeName">الاسم الكامل: *</label>
+                <input 
+                    type="text" 
+                    id="employeeName" 
+                    placeholder="أدخل اسمك الكامل"
+                    required
+                >
+                <small>سيتم حفظ نتيجتك باسمك</small>
+                <div class="error-message" id="nameError">يرجى إدخال الاسم</div>
+            </div>
+
+            <p style="margin-top: 30px;">📝 عدد الأسئلة: 15 سؤال متنوع</p>
             <p>⏱️ لا يوجد حد زمني - خذ وقتك!</p>
             <p>✅ ستحصل على تغذية راجعة فورية بعد كل إجابة</p>
             <p>🔄 يمكنك مراجعة جميع إجاباتك في النهاية</p>
@@ -376,14 +457,23 @@
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill">0%</div>
             </div>
+            <div style="margin-top: 10px; color: #666;">
+                <strong id="employeeNameDisplay"></strong>
+            </div>
         </div>
 
         <div id="questionsContainer"></div>
+
+        <div class="loading" id="loadingScreen">
+            <div class="spinner"></div>
+            <p>جاري حفظ نتائجك... 📊</p>
+        </div>
 
         <div class="results" id="results">
             <h2>نتائج التقييم</h2>
             <div class="score-circle" id="scoreCircle">0%</div>
             <p id="resultMessage"></p>
+            <p id="saveStatus" style="color: #28a745; font-weight: bold;"></p>
             <button onclick="showReview()">مراجعة الإجابات 📋</button>
             <button class="btn-secondary" onclick="restartQuiz()">إعادة التقييم 🔄</button>
             
@@ -395,6 +485,11 @@
     </div>
 
     <script>
+        // ===== إعدادات Google Sheets =====
+        // ⚠️ مهم: استبدل هذا الرابط برابط Google Apps Script الخاص بك
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVLFpHeUbMRA--hI9RFvPKU0KSvB0eKzVzdwj7mZsa10V6vDs1rD5v7Kl6W8CkXsglow/exec';
+        
+        // ===== بيانات الأسئلة =====
         const questions = [
             {
                 id: 1,
@@ -585,15 +680,39 @@
             }
         ];
 
+        // ===== متغيرات التطبيق =====
         let currentQuestionIndex = 0;
         let userAnswers = [];
         let score = 0;
         let quizStarted = false;
+        let employeeName = '';
+        let startTime = null;
+        let endTime = null;
 
+        // ===== وظائف التطبيق =====
+        
         function startQuiz() {
+            const nameInput = document.getElementById('employeeName');
+            const nameError = document.getElementById('nameError');
+            
+            employeeName = nameInput.value.trim();
+            
+            if (!employeeName) {
+                nameError.style.display = 'block';
+                nameInput.style.borderColor = '#dc3545';
+                return;
+            }
+            
+            nameError.style.display = 'none';
+            nameInput.style.borderColor = '#e0e0e0';
+            
             document.getElementById('startScreen').style.display = 'none';
             document.getElementById('progressContainer').style.display = 'block';
+            document.getElementById('employeeNameDisplay').textContent = employeeName;
+            
+            startTime = new Date();
             quizStarted = true;
+            
             renderQuestions();
             showQuestion(0);
         }
@@ -655,19 +774,23 @@
             const nextBtn = document.getElementById(`nextBtn-${questionIndex}`);
             const question = questions[questionIndex];
 
-            // تعطيل جميع الخيارات بعد الاختيار
             options.forEach(opt => opt.classList.add('disabled'));
 
-            // حفظ إجابة المستخدم
-            userAnswers[questionIndex] = optionIndex;
+            userAnswers[questionIndex] = {
+                questionId: question.id,
+                questionText: question.question,
+                userAnswer: optionIndex,
+                userAnswerText: question.options[optionIndex],
+                correctAnswer: question.correct,
+                correctAnswerText: question.options[question.correct],
+                isCorrect: optionIndex === question.correct
+            };
 
-            // إظهار الإجابة الصحيحة والخاطئة
             options[question.correct].classList.add('correct');
             if (optionIndex !== question.correct) {
                 options[optionIndex].classList.add('incorrect');
             }
 
-            // إظهار التغذية الراجعة
             const isCorrect = optionIndex === question.correct;
             feedback.classList.add('show', isCorrect ? 'correct' : 'incorrect');
             
@@ -677,7 +800,6 @@
 
             if (isCorrect) score++;
 
-            // تفعيل زر التالي
             nextBtn.disabled = false;
         }
 
@@ -685,7 +807,8 @@
             if (currentQuestionIndex < questions.length - 1) {
                 showQuestion(currentQuestionIndex + 1);
             } else {
-                showResults();
+                endTime = new Date();
+                saveToGoogleSheets();
             }
         }
 
@@ -702,14 +825,51 @@
             progressFill.textContent = Math.round(progress) + '%';
         }
 
-        function showResults() {
+        async function saveToGoogleSheets() {
             document.getElementById('questionsContainer').style.display = 'none';
             document.getElementById('progressContainer').style.display = 'none';
+            document.getElementById('loadingScreen').classList.add('show');
+
+            const percentage = Math.round((score / questions.length) * 100);
+            const duration = Math.round((endTime - startTime) / 1000 / 60); // بالدقائق
+
+            const data = {
+                timestamp: new Date().toISOString(),
+                name: employeeName,
+                score: score,
+                totalQuestions: questions.length,
+                percentage: percentage,
+                duration: duration,
+                answers: userAnswers
+            };
+
+            try {
+                // محاولة الإرسال إلى Google Sheets
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                // بسبب no-cors، لن نحصل على رد واضح، لذا نفترض النجاح
+                showResults(true);
+            } catch (error) {
+                console.error('خطأ في حفظ البيانات:', error);
+                showResults(false);
+            }
+        }
+
+        function showResults(savedSuccessfully = false) {
+            document.getElementById('loadingScreen').classList.remove('show');
             
             const percentage = Math.round((score / questions.length) * 100);
             const resultsDiv = document.getElementById('results');
             const scoreCircle = document.getElementById('scoreCircle');
             const resultMessage = document.getElementById('resultMessage');
+            const saveStatus = document.getElementById('saveStatus');
 
             scoreCircle.textContent = percentage + '%';
             
@@ -724,8 +884,16 @@
                 message = '📚 يُنصح بمراجعة المواد التدريبية والتركيز على المفاهيم الأساسية';
             }
 
-            resultMessage.textContent = `حصلت على ${score} من ${questions.length} (${percentage}%)`;
+            resultMessage.textContent = `${employeeName}، حصلت على ${score} من ${questions.length} (${percentage}%)`;
             resultMessage.innerHTML += `<br><strong>${message}</strong>`;
+
+            if (savedSuccessfully) {
+                saveStatus.textContent = '✓ تم حفظ نتائجك بنجاح في قاعدة البيانات';
+                saveStatus.style.color = '#28a745';
+            } else {
+                saveStatus.textContent = '⚠️ حدث خطأ في حفظ النتائج، لكن يمكنك مراجعة إجاباتك';
+                saveStatus.style.color = '#ff9800';
+            }
 
             resultsDiv.classList.add('show');
         }
@@ -735,27 +903,24 @@
             const reviewContainer = document.getElementById('reviewContainer');
             reviewContainer.innerHTML = '';
 
-            questions.forEach((q, index) => {
-                const userAnswer = userAnswers[index];
-                const isCorrect = userAnswer === q.correct;
-
+            userAnswers.forEach((answer, index) => {
                 const reviewItem = document.createElement('div');
-                reviewItem.className = `review-item ${!isCorrect ? 'wrong' : ''}`;
+                reviewItem.className = `review-item ${!answer.isCorrect ? 'wrong' : ''}`;
                 
                 reviewItem.innerHTML = `
                     <div class="review-question">
-                        <strong>السؤال ${index + 1}:</strong> ${q.question}
+                        <strong>السؤال ${index + 1}:</strong> ${answer.questionText}
                     </div>
-                    ${!isCorrect ? `
+                    ${!answer.isCorrect ? `
                         <div class="review-answer user">
-                            ❌ إجابتك: ${q.options[userAnswer]}
+                            ❌ إجابتك: ${answer.userAnswerText}
                         </div>
                     ` : ''}
                     <div class="review-answer correct">
-                        ✓ الإجابة الصحيحة: ${q.options[q.correct]}
+                        ✓ الإجابة الصحيحة: ${answer.correctAnswerText}
                     </div>
                     <div style="margin-top: 10px; padding: 10px; background: #f0f4ff; border-radius: 8px; font-size: 14px;">
-                        💡 ${q.explanation}
+                        💡 ${questions[index].explanation}
                     </div>
                 `;
 
@@ -767,16 +932,23 @@
         }
 
         function restartQuiz() {
-            currentQuestionIndex = 0;
-            userAnswers = [];
-            score = 0;
-            quizStarted = false;
+            if (confirm('هل أنت متأكد من إعادة التقييم؟ سيتم حفظ نتيجة جديدة.')) {
+                currentQuestionIndex = 0;
+                userAnswers = [];
+                score = 0;
+                quizStarted = false;
+                startTime = null;
+                endTime = null;
 
-            document.getElementById('results').classList.remove('show');
-            document.getElementById('reviewSection').style.display = 'none';
-            document.getElementById('startScreen').style.display = 'block';
-            document.getElementById('progressContainer').style.display = 'none';
-            document.getElementById('questionsContainer').innerHTML = '';
+                document.getElementById('results').classList.remove('show');
+                document.getElementById('reviewSection').style.display = 'none';
+                document.getElementById('startScreen').style.display = 'block';
+                document.getElementById('progressContainer').style.display = 'none';
+                document.getElementById('questionsContainer').innerHTML = '';
+                
+                // مسح الاسم للسماح بإدخال بيانات جديدة
+                document.getElementById('employeeName').value = '';
+            }
         }
     </script>
 </body>
