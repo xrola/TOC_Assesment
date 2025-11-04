@@ -492,6 +492,194 @@
                 flex-direction: column;
             }
         }
+
+                /* ===== تصميم أسئلة المطابقة ===== */
+        .matching-container {
+            display: grid;
+            grid-template-columns: 1fr 80px 1fr;
+            gap: 20px;
+            margin-top: 30px;
+            align-items: start;
+        }
+
+        .matching-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .matching-column-title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #2874a6;
+            text-align: center;
+            padding: 10px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 100%);
+            border: 3px solid #2874a6;
+            border-radius: 12px;
+            padding: 18px;
+            position: relative;
+            min-height: 90px;
+            transition: all 0.3s ease;
+        }
+
+        .result-card::before {
+            content: attr(data-number);
+            position: absolute;
+            top: -12px;
+            right: 15px;
+            background: #2874a6;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .result-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #2c3e50;
+            margin-top: 10px;
+        }
+
+        .drop-zone {
+            margin-top: 12px;
+            min-height: 60px;
+            border: 2px dashed #1abc9c;
+            border-radius: 8px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .drop-zone.drag-over {
+            background: #d4f4dd;
+            border-color: #27ae60;
+            border-style: solid;
+            transform: scale(1.05);
+        }
+
+        .drop-zone.filled {
+            border-style: solid;
+            border-color: #1abc9c;
+            background: #e8f8f5;
+        }
+
+        .indicator-item {
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+            color: white;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: grab;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            line-height: 1.5;
+            box-shadow: 0 4px 8px rgba(26, 188, 156, 0.3);
+            text-align: center;
+        }
+
+        .indicator-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(26, 188, 156, 0.4);
+        }
+
+        .indicator-item.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+            transform: rotate(5deg);
+        }
+
+        .indicator-item.used {
+            background: #95a5a6;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .indicator-item.correct {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            animation: correctPulse 0.6s ease;
+        }
+
+        .indicator-item.incorrect {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .matching-separator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #95a5a6;
+            font-weight: bold;
+        }
+
+        .dropped-indicator {
+            font-size: 14px;
+            color: #2c3e50;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .matching-instructions {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            color: #856404;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .matching-instructions::before {
+            content: "💡";
+            font-size: 24px;
+        }
+
+        /* استجابة للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .matching-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .matching-separator {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -862,41 +1050,56 @@
             },
             {
                 id: 21,
+                type: "matching", // نوع جديد
                 category: "المطابقة",
-                question: "طابق كل نتيجة مع المؤشر المناسب - فئة الطلاب\n\nالنتائج:\n1. طلاب ممارسون لأنماط المشاركة المجتمعية\n2. توثيق أثر المشاركة المجتمعية على شخصيات ومهارات الطلاب\n3. زيادة الفرص التي تساهم في تنمية مهارات وشخصيات الطلاب\n\nاختر الترتيب الصحيح للمؤشرات المناسبة:",
-                options: [
-                    "أ. (1) عدد الفرص التطوعية المخصصة للطلاب - (2) عدد الطلاب المسجلين في منصة العمل التطوعي - (3) نسبة الطلاب المسجلة مهاراتهم في السجل المهاري",
-                    "ب. (1) نسبة الطلاب المسجلة مهاراتهم في السجل المهاري - (2) عدد الفرص التطوعية المخصصة للطلاب - (3) عدد الطلاب المسجلين في منصة العمل التطوعي",
-                    "ج. (1) عدد الطلاب المسجلين في منصة العمل التطوعي - (2) نسبة الطلاب المسجلة مهاراتهم في السجل المهاري - (3) عدد الفرص التطوعية المخصصة للطلاب",
-                    "د. (1) نسبة الطلاب المسجلة مهاراتهم في السجل المهاري - (2) عدد الطلاب المسجلين في منصة العمل التطوعي - (3) عدد الفرص التطوعية المخصصة للطلاب"
+                question: "طابق كل نتيجة مع المؤشر المناسب - فئة الطلاب",
+                leftItems: [
+                    "طلاب ممارسون لأنماط المشاركة المجتمعية",
+                    "توثيق أثر المشاركة المجتمعية على شخصيات ومهارات الطلاب",
+                    "زيادة الفرص التي تساهم في تنمية مهارات وشخصيات الطلاب"
                 ],
-                correct: 2,
+                rightItems: [
+                    "عدد الطلاب المسجلين في منصة العمل التطوعي",
+                    "نسبة الطلاب المسجلة مهاراتهم في السجل المهاري",
+                    "عدد الفرص التطوعية المخصصة للطلاب"
+                ],
+                correctMatches: {0: 0, 1: 1, 2: 2}, // النتيجة 0 تطابق المؤشر 0، وهكذا
                 explanation: "الممارسة الفعلية تُقاس بالتسجيل في المنصة، والتوثيق بالسجل المهاري، وزيادة الفرص بعدد الفرص المتاحة."
             },
             {
                 id: 22,
+                type: "matching",
                 category: "المطابقة",
-                question: "طابق كل نتيجة مع المؤشر المناسب - فئات متنوعة\n\nالنتائج:\n1. صناع قرار قدوات وداعمون للمشاركة المجتمعية\n2. قطاع تعليمي يعزز مفاهيم المشاركة من خلال مناهج وأنشطة جاذبة\n3. مؤثرون يتبنون إعلامياً قضايا المشاركة المجتمعية\n\nاختر الترتيب الصحيح للمؤشرات المناسبة:",
-                options: [
-                    "أ. (1) نسبة المفاهيم المتعلقة بالمشاركة المجتمعية في المناهج الدراسية - (2) عدد المؤثرين الذين نشروا محتوى إعلامي عن المشاركة المجتمعية - (3) عدد صناع القرار الممارسين للعمل التطوعي",
-                    "ب. (1) عدد صناع القرار الممارسين للعمل التطوعي - (2) نسبة المفاهيم المتعلقة بالمشاركة المجتمعية في المناهج الدراسية - (3) عدد المؤثرين الذين نشروا محتوى إعلامي عن المشاركة المجتمعية",
-                    "ج. (1) عدد المؤثرين الذين نشروا محتوى إعلامي عن المشاركة المجتمعية - (2) عدد صناع القرار الممارسين للعمل التطوعي - (3) نسبة المفاهيم المتعلقة بالمشاركة المجتمعية في المناهج الدراسية",
-                    "د. (1) عدد صناع القرار الممارسين للعمل التطوعي - (2) عدد المؤثرين الذين نشروا محتوى إعلامي عن المشاركة المجتمعية - (3) نسبة المفاهيم المتعلقة بالمشاركة المجتمعية في المناهج الدراسية"
+                question: "طابق كل نتيجة مع المؤشر المناسب - فئات متنوعة",
+                leftItems: [
+                    "صناع قرار قدوات وداعمون للمشاركة المجتمعية",
+                    "قطاع تعليمي يعزز مفاهيم المشاركة من خلال مناهج وأنشطة جاذبة",
+                    "مؤثرون يتبنون إعلامياً قضايا المشاركة المجتمعية"
                 ],
-                correct: 1,
+                rightItems: [
+                    "عدد صناع القرار الممارسين للعمل التطوعي",
+                    "نسبة المفاهيم المتعلقة بالمشاركة المجتمعية في المناهج الدراسية",
+                    "عدد المؤثرين الذين نشروا محتوى إعلامي عن المشاركة المجتمعية"
+                ],
+                correctMatches: {0: 0, 1: 1, 2: 2},
                 explanation: "صناع القرار القدوات يُقاسون بممارستهم الشخصية، القطاع التعليمي بنسبة تضمين المفاهيم، والمؤثرون بعدد من نشروا المحتوى."
             },
             {
                 id: 23,
+                type: "matching",
                 category: "المطابقة",
-                question: "طابق كل نتيجة مع المؤشر المناسب - القطاعات\n\nالنتائج:\n1. قطاع حكومي يطور سياسات وأنظمة تزيد الدافعية للمشاركة\n2. قطاع خاص محفز لمنسوبيه وداعم للقطاع غير الربحي\n3. قطاع غير ربحي ممكّن للمجتمع من المساهمة الفاعلة\n\nاختر الترتيب الصحيح للمؤشرات المناسبة:",
-                options: [
-                    "أ. (1) عدد السياسات والأنظمة المطورة لزيادة الدافعية للمشاركة - (2) نسبة الأفراد المستفيدين من خدمات القطاع غير الربحي - (3) نسبة منسوبي القطاع الخاص المشاركين في العمل التطوعي",
-                    "ب. (1) نسبة منسوبي القطاع الخاص المشاركين في العمل التطوعي - (2) نسبة الأفراد المستفيدين من خدمات القطاع غير الربحي - (3) عدد السياسات والأنظمة المطورة لزيادة الدافعية للمشاركة",
-                    "ج. (1) نسبة الأفراد المستفيدين من خدمات القطاع غير الربحي - (2) عدد السياسات والأنظمة المطورة لزيادة الدافعية للمشاركة - (3) نسبة منسوبي القطاع الخاص المشاركين في العمل التطوعي",
-                    "د. (1) عدد السياسات والأنظمة المطورة لزيادة الدافعية للمشاركة - (2) نسبة منسوبي القطاع الخاص المشاركين في العمل التطوعي - (3) نسبة الأفراد المستفيدين من خدمات القطاع غير الربحي"
+                question: "طابق كل نتيجة مع المؤشر المناسب - القطاعات",
+                leftItems: [
+                    "قطاع حكومي يطور سياسات وأنظمة تزيد الدافعية للمشاركة",
+                    "قطاع خاص محفز لمنسوبيه وداعم للقطاع غير الربحي",
+                    "قطاع غير ربحي ممكّن للمجتمع من المساهمة الفاعلة"
                 ],
-                correct: 3,
+                rightItems: [
+                    "عدد السياسات والأنظمة المطورة لزيادة الدافعية للمشاركة",
+                    "نسبة منسوبي القطاع الخاص المشاركين في العمل التطوعي",
+                    "نسبة الأفراد المستفيدين من خدمات القطاع غير الربحي"
+                ],
+                correctMatches: {0: 0, 1: 1, 2: 2},
                 explanation: "القطاع الحكومي يُقاس بعدد السياسات المطورة، القطاع الخاص بنسبة منسوبيه المتطوعين، والقطاع غير الربحي بنسبة المستفيدين من خدماته."
             },
             {
@@ -944,40 +1147,109 @@
 
         function renderQuestions() {
             const container = document.getElementById('questionsContainer');
-            container.innerHTML = '';
-
+            
             questions.forEach((q, index) => {
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question-container';
                 questionDiv.id = `question-${index}`;
 
-                questionDiv.innerHTML = `
-                    <div class="category-badge">${q.category}</div>
-                    <div class="question-number">السؤال ${index + 1} من ${questions.length}</div>
-                    <div class="question-text">${q.question}</div>
-                    <div class="options" id="options-${index}">
-                        ${q.options.map((option, optIndex) => `
-                            <div class="option" onclick="selectOption(${index}, ${optIndex})">
-                                <span>${option}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="feedback" id="feedback-${index}">
-                        <div class="feedback-title">
-                            <span class="icon" id="feedbackIcon-${index}"></span>
-                            <span id="feedbackTitle-${index}"></span>
+                // التحقق من نوع السؤال
+                if (q.type === "matching") {
+                    // عرض سؤال المطابقة
+                    questionDiv.innerHTML = `
+                        <div class="category-badge">${q.category}</div>
+                        <div class="question-number">السؤال ${index + 1} من ${questions.length}</div>
+                        <div class="question-text">${q.question}</div>
+                        
+                        <div class="matching-instructions">
+                            اسحب المؤشرات من اليسار وأفلتها في المكان المناسب أمام كل نتيجة
                         </div>
-                        <div class="feedback-text" id="feedbackText-${index}"></div>
-                    </div>
-                    <div class="buttons">
-                        <button onclick="previousQuestion()" ${index === 0 ? 'style="visibility: hidden;"' : ''}>
-                            السؤال السابق
-                        </button>
-                        <button id="nextBtn-${index}" onclick="nextQuestion()" disabled>
-                            ${index === questions.length - 1 ? 'إنهاء التقييم' : 'السؤال التالي'}
-                        </button>
-                    </div>
-                `;
+                        
+                        <div class="matching-container">
+                            <!-- عمود النتائج -->
+                            <div class="matching-column">
+                                <div class="matching-column-title">النتائج</div>
+                                ${q.leftItems.map((item, i) => `
+                                    <div class="result-card" data-number="${i + 1}">
+                                        <div class="result-text">${item}</div>
+                                        <div class="drop-zone" 
+                                            data-question="${index}" 
+                                            data-result="${i}"
+                                            ondrop="drop(event)" 
+                                            ondragover="allowDrop(event)"
+                                            ondragleave="dragLeave(event)">
+                                            اسحب المؤشر هنا
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            <!-- الفاصل -->
+                            <div class="matching-separator">⟷</div>
+                            
+                            <!-- عمود المؤشرات -->
+                            <div class="matching-column">
+                                <div class="matching-column-title">المؤشرات</div>
+                                ${q.rightItems.map((item, i) => `
+                                    <div class="indicator-item" 
+                                        draggable="true" 
+                                        data-question="${index}"
+                                        data-indicator="${i}"
+                                        ondragstart="drag(event)"
+                                        ondragend="dragEnd(event)">
+                                        ${item}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="feedback" id="feedback-${index}">
+                            <div class="feedback-title">
+                                <span class="icon" id="feedbackIcon-${index}"></span>
+                                <span id="feedbackTitle-${index}"></span>
+                            </div>
+                            <div class="feedback-text" id="feedbackText-${index}"></div>
+                        </div>
+                        
+                        <div class="buttons">
+                            <button onclick="previousQuestion()" ${index === 0 ? 'style="visibility: hidden;"' : ''}>
+                                السؤال السابق
+                            </button>
+                            <button id="nextBtn-${index}" onclick="checkMatchingAnswer(${index})" disabled>
+                                التحقق من الإجابة
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    // عرض الأسئلة العادية كما هي
+                    questionDiv.innerHTML = `
+                        <div class="category-badge">${q.category}</div>
+                        <div class="question-number">السؤال ${index + 1} من ${questions.length}</div>
+                        <div class="question-text">${q.question}</div>
+                        <div class="options" id="options-${index}">
+                            ${q.options.map((option, optIndex) => `
+                                <div class="option" onclick="selectOption(${index}, ${optIndex})">
+                                    <span>${option}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="feedback" id="feedback-${index}">
+                            <div class="feedback-title">
+                                <span class="icon" id="feedbackIcon-${index}"></span>
+                                <span id="feedbackTitle-${index}"></span>
+                            </div>
+                            <div class="feedback-text" id="feedbackText-${index}"></div>
+                        </div>
+                        <div class="buttons">
+                            <button onclick="previousQuestion()" ${index === 0 ? 'style="visibility: hidden;"' : ''}>
+                                السؤال السابق
+                            </button>
+                            <button id="nextBtn-${index}" onclick="nextQuestion()" disabled>
+                                ${index === questions.length - 1 ? 'إنهاء التقييم' : 'السؤال التالي'}
+                            </button>
+                        </div>
+                    `;
+                }
 
                 container.appendChild(questionDiv);
             });
@@ -1139,29 +1411,192 @@
                 const reviewItem = document.createElement('div');
                 reviewItem.className = `review-item ${!answer.isCorrect ? 'wrong' : ''}`;
                 
-                reviewItem.innerHTML = `
-                    <div class="category-badge">${questions[index].category}</div>
-                    <div class="review-question">
-                        <strong>السؤال ${index + 1}:</strong> ${answer.questionText}
-                    </div>
-                    ${!answer.isCorrect ? `
-                        <div class="review-answer user">
-                            ❌ إجابتك: ${answer.userAnswerText}
+                const question = questions[index];
+                
+                if (question.type === "matching") {
+                    // عرض مراجعة سؤال المطابقة
+                    let matchingReview = '<div style="margin-top: 15px;">';
+                    question.leftItems.forEach((item, i) => {
+                        const userAnswerIndex = answer.userAnswer[i];
+                        const correctAnswerIndex = answer.correctAnswer[i];
+                        const isCorrect = userAnswerIndex === correctAnswerIndex;
+                        
+                        matchingReview += `
+                            <div style="margin-bottom: 15px; padding: 12px; background: ${isCorrect ? '#d4edda' : '#f8d7da'}; border-radius: 8px;">
+                                <strong>النتيجة ${i + 1}:</strong> ${item}
+                                <br>
+                                ${!isCorrect ? `❌ <strong>إجابتك:</strong> ${question.rightItems[userAnswerIndex]}<br>` : ''}
+                                ✓ <strong>الإجابة الصحيحة:</strong> ${question.rightItems[correctAnswerIndex]}
+                            </div>
+                        `;
+                    });
+                    matchingReview += '</div>';
+                    
+                    reviewItem.innerHTML = `
+                        <div class="category-badge">${question.category}</div>
+                        <div class="review-question">
+                            <strong>السؤال ${index + 1}:</strong> ${answer.questionText}
                         </div>
-                    ` : ''}
-                    <div class="review-answer correct">
-                        ✓ الإجابة الصحيحة: ${answer.correctAnswerText}
-                    </div>
-                    <div style="margin-top: 10px; padding: 10px; background: #f0f4ff; border-radius: 8px; font-size: 14px;">
-                        💡 ${questions[index].explanation}
-                    </div>
-                `;
+                        ${matchingReview}
+                        <div style="margin-top: 10px; padding: 10px; background: #f0f4ff; border-radius: 8px; font-size: 14px;">
+                            💡 ${question.explanation}
+                        </div>
+                    `;
+                } else {
+                    // عرض مراجعة السؤال العادي
+                    reviewItem.innerHTML = `
+                        <div class="category-badge">${question.category}</div>
+                        <div class="review-question">
+                            <strong>السؤال ${index + 1}:</strong> ${answer.questionText}
+                        </div>
+                        ${!answer.isCorrect ? `
+                            <div class="review-answer user">
+                                ❌ إجابتك: ${answer.userAnswerText}
+                            </div>
+                        ` : ''}
+                        <div class="review-answer correct">
+                            ✓ الإجابة الصحيحة: ${answer.correctAnswerText}
+                        </div>
+                        <div style="margin-top: 10px; padding: 10px; background: #f0f4ff; border-radius: 8px; font-size: 14px;">
+                            💡 ${question.explanation}
+                        </div>
+                    `;
+                }
 
                 reviewContainer.appendChild(reviewItem);
             });
 
             reviewSection.style.display = 'block';
             reviewSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        
+        // ===== دوال Drag and Drop =====
+        let draggedElement = null;
+        let matchingAnswers = {}; // لحفظ إجابات المطابقة
+
+        function drag(event) {
+            draggedElement = event.target;
+            event.target.classList.add('dragging');
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/html', event.target.innerHTML);
+        }
+
+        function dragEnd(event) {
+            event.target.classList.remove('dragging');
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('drag-over');
+        }
+
+        function dragLeave(event) {
+            event.currentTarget.classList.remove('drag-over');
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const dropZone = event.currentTarget;
+            dropZone.classList.remove('drag-over');
+            
+            // التحقق من أن المنطقة فارغة
+            if (dropZone.classList.contains('filled')) {
+                return;
+            }
+            
+            if (draggedElement) {
+                const questionIndex = parseInt(dropZone.dataset.question);
+                const resultIndex = parseInt(dropZone.dataset.result);
+                const indicatorIndex = parseInt(draggedElement.dataset.indicator);
+                
+                // حفظ الإجابة
+                if (!matchingAnswers[questionIndex]) {
+                    matchingAnswers[questionIndex] = {};
+                }
+                matchingAnswers[questionIndex][resultIndex] = indicatorIndex;
+                
+                // تحديث واجهة المستخدم
+                dropZone.innerHTML = `<div class="dropped-indicator">${draggedElement.innerHTML}</div>`;
+                dropZone.classList.add('filled');
+                draggedElement.classList.add('used');
+                draggedElement.setAttribute('draggable', 'false');
+                
+                // تفعيل زر التحقق إذا تم الإجابة على كل النتائج
+                checkIfAllMatched(questionIndex);
+            }
+        }
+
+        function checkIfAllMatched(questionIndex) {
+            const question = questions[questionIndex];
+            const answers = matchingAnswers[questionIndex] || {};
+            
+            // التحقق من اكتمال جميع المطابقات
+            if (Object.keys(answers).length === question.leftItems.length) {
+                document.getElementById(`nextBtn-${questionIndex}`).disabled = false;
+            }
+        }
+
+        function checkMatchingAnswer(questionIndex) {
+            const question = questions[questionIndex];
+            const answers = matchingAnswers[questionIndex];
+            const feedback = document.getElementById(`feedback-${questionIndex}`);
+            const feedbackIcon = document.getElementById(`feedbackIcon-${questionIndex}`);
+            const feedbackTitle = document.getElementById(`feedbackTitle-${questionIndex}`);
+            const feedbackText = document.getElementById(`feedbackText-${questionIndex}`);
+            
+            let correctCount = 0;
+            let isAllCorrect = true;
+            
+            // التحقق من الإجابات
+            question.leftItems.forEach((item, resultIndex) => {
+                const userAnswer = answers[resultIndex];
+                const correctAnswer = question.correctMatches[resultIndex];
+                const dropZone = document.querySelector(`[data-question="${questionIndex}"][data-result="${resultIndex}"]`);
+                const indicator = document.querySelector(`[data-question="${questionIndex}"][data-indicator="${userAnswer}"]`);
+                
+                if (userAnswer === correctAnswer) {
+                    correctCount++;
+                    dropZone.style.borderColor = '#27ae60';
+                    dropZone.style.background = '#d4edda';
+                    if (indicator) indicator.classList.add('correct');
+                } else {
+                    isAllCorrect = false;
+                    dropZone.style.borderColor = '#e74c3c';
+                    dropZone.style.background = '#f8d7da';
+                    if (indicator) indicator.classList.add('incorrect');
+                }
+            });
+            
+            // تعطيل السحب بعد التحقق
+            document.querySelectorAll(`[data-question="${questionIndex}"].indicator-item`).forEach(item => {
+                item.setAttribute('draggable', 'false');
+                item.style.cursor = 'not-allowed';
+            });
+            
+            // عرض النتيجة
+            feedback.classList.add('show', isAllCorrect ? 'correct' : 'incorrect');
+            feedbackIcon.textContent = isAllCorrect ? '✓' : '✗';
+            feedbackTitle.textContent = isAllCorrect ? 
+                `إجابة صحيحة! أحسنت - ${correctCount} من ${question.leftItems.length}` : 
+                `${correctCount} من ${question.leftItems.length} صحيحة`;
+            feedbackText.textContent = question.explanation;
+            
+            // حفظ النتيجة
+            userAnswers[questionIndex] = {
+                questionId: question.id,
+                questionText: question.question,
+                userAnswer: answers,
+                correctAnswer: question.correctMatches,
+                isCorrect: isAllCorrect
+            };
+            
+            if (isAllCorrect) score++;
+            
+            // تغيير نص الزر
+            const nextBtn = document.getElementById(`nextBtn-${questionIndex}`);
+            nextBtn.textContent = questionIndex === questions.length - 1 ? 'إنهاء التقييم' : 'السؤال التالي';
+            nextBtn.onclick = () => nextQuestion();
         }
 
         function restartQuiz() {
