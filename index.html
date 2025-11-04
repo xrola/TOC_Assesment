@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2c5f6f 0%, #2874a6 100%);
             min-height: 100vh;
             padding: 20px;
             direction: rtl;
@@ -29,7 +29,7 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #2d3561 0%, #4a5899 100%);
+            background: linear-gradient(135deg, #2874a6 0%, #1abc9c 100%);
             color: white;
             padding: 30px;
             text-align: center;
@@ -61,7 +61,7 @@
         }
 
         .progress-fill {
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(90deg, #2874a6 0%, #1abc9c 100%);
             height: 100%;
             width: 0%;
             transition: width 0.3s ease;
@@ -88,7 +88,7 @@
         }
 
         .question-number {
-            color: #667eea;
+            color: #2874a6;
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 15px;
@@ -98,7 +98,7 @@
             font-size: 22px;
             font-weight: 600;
             margin-bottom: 30px;
-            color: #2d3561;
+            color: #2874a6;
             line-height: 1.6;
         }
 
@@ -121,14 +121,14 @@
         }
 
         .option:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
+            border-color: #2874a6;
+            background: #e3f2fd;
             transform: translateX(-5px);
         }
 
         .option.selected {
-            background: #e3e9ff;
-            border-color: #667eea;
+            background: #e3f2fd;
+            border-color: #2874a6;
         }
 
         .option.correct {
@@ -197,7 +197,7 @@
         }
 
         button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2874a6 0%, #1abc9c 100%);
             color: white;
             border: none;
             padding: 15px 35px;
@@ -210,7 +210,7 @@
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(40, 116, 166, 0.4);
         }
 
         button:disabled {
@@ -242,63 +242,38 @@
             width: 200px;
             height: 200px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 30px auto;
+            background: linear-gradient(135deg, #2874a6 0%, #1abc9c 100%);
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 30px auto;
+            font-size: 60px;
+            font-weight: bold;
             color: white;
-            font-size: 48px;
-            font-weight: bold;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 30px rgba(40, 116, 166, 0.3);
         }
 
-        .results h2 {
-            font-size: 32px;
-            color: #2d3561;
-            margin-bottom: 20px;
+        .result-message {
+            font-size: 20px;
+            margin: 20px 0;
+            color: #2874a6;
+            line-height: 1.8;
         }
 
-        .results p {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 30px;
+        .save-status {
+            margin: 15px 0;
+            font-size: 16px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f0f4ff;
         }
 
-        .review-section {
-            margin-top: 40px;
-            text-align: right;
-        }
-
-        .review-item {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-right: 5px solid #667eea;
-        }
-
-        .review-item.wrong {
-            border-right-color: #dc3545;
-        }
-
-        .review-question {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #2d3561;
-        }
-
-        .review-answer {
-            margin: 8px 0;
-            font-size: 14px;
-        }
-
-        .review-answer.user {
-            color: #dc3545;
-        }
-
-        .review-answer.correct {
-            color: #28a745;
+        .result-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
         }
 
         .start-screen {
@@ -307,90 +282,109 @@
         }
 
         .start-screen h2 {
+            color: #2874a6;
             font-size: 32px;
-            color: #2d3561;
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .start-screen h2::before {
+            content: '🎯';
+            font-size: 40px;
         }
 
         .start-screen p {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 15px;
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 40px;
             line-height: 1.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .start-button {
-            margin-top: 30px;
-            padding: 20px 50px;
+        .features-list {
+            text-align: right;
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 0;
+            list-style: none;
+        }
+
+        .features-list li {
+            padding: 12px 20px;
+            margin-bottom: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .features-list li::before {
             font-size: 20px;
         }
 
-        .icon {
-            display: inline-block;
-            font-size: 24px;
-        }
-
-        .form-group {
-            margin: 25px auto;
+        .start-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px auto 30px;
             max-width: 500px;
-            text-align: right;
+            color: #2874a6;
+            font-weight: 500;
         }
 
-        .form-group label {
+        .input-group {
+            max-width: 400px;
+            margin: 0 auto 30px;
+        }
+
+        .input-group label {
             display: block;
-            margin-bottom: 10px;
+            text-align: right;
             font-weight: bold;
+            margin-bottom: 10px;
             color: #2d3561;
-            font-size: 18px;
         }
 
-        .form-group input {
+        .input-group input {
             width: 100%;
             padding: 15px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 16px;
-            transition: border-color 0.3s;
-            direction: rtl;
+            transition: border-color 0.3s ease;
         }
 
-        .form-group input:focus {
+        .input-group input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #2874a6;
         }
 
-        .form-group small {
-            display: block;
-            margin-top: 8px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .error-message {
-            color: #dc3545;
-            font-size: 14px;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .loading {
-            display: none;
+        .loading-screen {
+            padding: 60px 40px;
             text-align: center;
-            padding: 20px;
+            display: none;
         }
 
-        .loading.show {
+        .loading-screen.show {
             display: block;
         }
 
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #2874a6;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 60px;
+            height: 60px;
             animation: spin 1s linear infinite;
-            margin: 20px auto;
+            margin: 30px auto;
         }
 
         @keyframes spin {
@@ -398,25 +392,104 @@
             100% { transform: rotate(360deg); }
         }
 
+        .review-section {
+            padding: 40px;
+            display: none;
+        }
+
+        .review-item {
+            background: #f8f9fa;
+            border-right: 4px solid #28a745;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .review-item.wrong {
+            border-right-color: #dc3545;
+        }
+
+        .review-question {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2874a6;
+            font-size: 16px;
+        }
+
+        .review-answer {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 15px;
+        }
+
+        .review-answer.user {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .review-answer.correct {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #2874a6;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-top: 2px solid #e0e0e0;
+            margin-top: 20px;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .footer .by-claude {
+            font-weight: bold;
+            color: #2874a6;
+            font-size: 16px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
             }
-            
-            .question-container, .start-screen, .results {
-                padding: 20px;
+
+            .header h1 {
+                font-size: 22px;
             }
 
             .question-text {
                 font-size: 18px;
             }
 
-            .buttons {
-                flex-direction: column;
+            .option {
+                padding: 15px 20px;
+                font-size: 14px;
             }
 
             button {
-                width: 100%;
+                padding: 12px 25px;
+                font-size: 14px;
+            }
+
+            .result-buttons {
+                flex-direction: column;
             }
         }
     </style>
@@ -424,295 +497,447 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 أداة التعلم الذاتية التفاعلية</h1>
-            <p>تقييم الفهم لنظرية التغيير والإطار المنطقي</p>
+            <h1>🎯 أداة التعلم الذاتية</h1>
+            <p>تقييم نظرية التغيير والمؤشرات الاسترشادية</p>
         </div>
 
+        <!-- شاشة البداية -->
         <div id="startScreen" class="start-screen">
-            <h2>مرحباً بك في أداة التقييم التفاعلية! 🎯</h2>
-            <p><strong>هذه الأداة مصممة لقياس مستوى فهمك لنظرية التغيير والإطار المنطقي</strong></p>
+            <h2>مرحباً بك في أداة التقييم التفاعلية!</h2>
+            <p>
+                هذه الأداة مصممة لقياس مستوى فهمك لنظرية التغيير والإطار المنطقي
+            </p>
             
-            <div class="form-group">
+            <div class="input-group">
                 <label for="employeeName">الاسم الكامل: *</label>
-                <input 
-                    type="text" 
-                    id="employeeName" 
-                    placeholder="أدخل اسمك الكامل"
-                    required
-                >
-                <small>سيتم حفظ نتيجتك باسمك</small>
-                <div class="error-message" id="nameError">يرجى إدخال الاسم</div>
+                <input type="text" id="employeeName" placeholder="أدخل اسمك الكامل" required>
             </div>
 
-            <p style="margin-top: 30px;">📝 عدد الأسئلة: 15 سؤال متنوع</p>
-            <p>⏱️ لا يوجد حد زمني - خذ وقتك!</p>
-            <p>✅ ستحصل على تغذية راجعة فورية بعد كل إجابة</p>
-            <p>🔄 يمكنك مراجعة جميع إجاباتك في النهاية</p>
-            <p>💡 تعلم من أخطائك وحسّن فهمك!</p>
-            <button class="start-button" onclick="startQuiz()">ابدأ التقييم الآن</button>
+            <p style="font-size: 14px; color: #666; margin-bottom: 20px;">
+                سيتم حفظ نتيجتك باسمك
+            </p>
+
+            <div class="start-info">
+                📝 عدد الأسئلة: 25 سؤالاً متنوعاً
+            </div>
+
+            <ul class="features-list">
+                <li><span style="font-size: 20px;">⏱️</span> لا يوجد حد زمني - خذ وقتك!</li>
+                <li><span style="font-size: 20px;">✅</span> ستحصل على تغذية راجعة فورية بعد كل إجابة</li>
+                <li><span style="font-size: 20px;">📊</span> يمكنك مراجعة جميع إجاباتك في النهاية</li>
+                <li><span style="font-size: 20px;">💡</span> تعلم من أخطائك وحسّن فهمك!</li>
+            </ul>
+
+            <button onclick="startQuiz()">ابدأ التقييم الآن</button>
         </div>
 
-        <div class="progress-container" id="progressContainer" style="display: none;">
-            <div>السؤال <span id="currentQuestion">1</span> من <span id="totalQuestions">15</span></div>
+        <!-- شريط التقدم -->
+        <div id="progressContainer" class="progress-container" style="display: none;">
+            <div style="margin-bottom: 10px;">
+                <span>السؤال <span id="currentQuestion">1</span> من <span id="totalQuestions">25</span></span>
+            </div>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill">0%</div>
             </div>
-            <div style="margin-top: 10px; color: #666;">
-                <strong id="employeeNameDisplay"></strong>
-            </div>
         </div>
 
+        <!-- حاوية الأسئلة -->
         <div id="questionsContainer"></div>
 
-        <div class="loading" id="loadingScreen">
+        <!-- شاشة التحميل -->
+        <div id="loadingScreen" class="loading-screen">
             <div class="spinner"></div>
-            <p>جاري حفظ نتائجك... 📊</p>
+            <h3>جاري حفظ نتائجك...</h3>
+            <p>يرجى الانتظار قليلاً</p>
         </div>
 
-        <div class="results" id="results">
-            <h2>نتائج التقييم</h2>
-            <div class="score-circle" id="scoreCircle">0%</div>
-            <p id="resultMessage"></p>
-            <p id="saveStatus" style="color: #28a745; font-weight: bold;"></p>
-            <button onclick="showReview()">مراجعة الإجابات 📋</button>
-            <button class="btn-secondary" onclick="restartQuiz()">إعادة التقييم 🔄</button>
+        <!-- صفحة النتائج -->
+        <div id="results" class="results">
+            <h2>🎉 انتهى التقييم!</h2>
+            <div id="scoreCircle" class="score-circle">0%</div>
+            <div id="resultMessage" class="result-message"></div>
+            <div id="saveStatus" class="save-status"></div>
             
-            <div class="review-section" id="reviewSection" style="display: none;">
-                <h3 style="margin-bottom: 20px; color: #2d3561;">مراجعة تفصيلية للإجابات:</h3>
-                <div id="reviewContainer"></div>
+            <div class="result-buttons">
+                <button onclick="showReview()">📋 مراجعة الإجابات</button>
+                <button onclick="restartQuiz()" class="btn-secondary">🔄 إعادة التقييم</button>
             </div>
+        </div>
+
+        <!-- قسم مراجعة الإجابات -->
+        <div id="reviewSection" class="review-section">
+            <h2 style="color: #2874a6; margin-bottom: 20px; text-align: center;">📝 مراجعة الإجابات</h2>
+            <p style="text-align: center; color: #666; font-size: 16px; margin-bottom: 30px; line-height: 1.8;">
+                نوصي بمراجعة جميع إجاباتك لتعزيز فهمك للمفاهيم.<br>
+                يمكنك إعادة التقييم في أي وقت للحصول على نتيجة أفضل.
+            </p>
+            <div id="reviewContainer"></div>
+            <div style="text-align: center; margin-top: 30px;">
+                <button onclick="document.getElementById('results').scrollIntoView({ behavior: 'smooth' })">
+                    العودة للنتائج
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p class="by-claude">By Rola Alaryani</p>
+            <p>مبادرة قياس الأثر</p>
         </div>
     </div>
 
     <script>
-        // ===== إعدادات Google Sheets =====
-        // ⚠️ مهم: استبدل هذا الرابط برابط Google Apps Script الخاص بك
+        // رابط Google Apps Script (اختياري - يمكن تركه فارغاً)
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVLFpHeUbMRA--hI9RFvPKU0KSvB0eKzVzdwj7mZsa10V6vDs1rD5v7Kl6W8CkXsglow/exec';
-        
-        // ===== بيانات الأسئلة =====
-        const questions = [
-            {
-                id: 1,
-                type: "multiple",
-                question: "ما هو التعريف الأدق لنظرية التغيير؟",
-                options: [
-                    "خطة تفصيلية لأنشطة المشروع فقط",
-                    "خارطة طريق توضح التسلسل المنطقي للنتائج المخططة لتحقيق التغيير المرغوب",
-                    "قائمة بالمستفيدين من المشروع",
-                    "تقرير نهائي عن إنجازات المشروع"
-                ],
-                correct: 1,
-                explanation: "نظرية التغيير هي خارطة طريق استراتيجية توضح التسلسل المنطقي للنتائج التي نريد تحقيقها. تساعدنا على فهم كيف سيحدث التغيير المرغوب من خلال ربط الأنشطة بالمخرجات ثم بالنتائج والأثر النهائي."
-            },
-            {
-                id: 2,
-                type: "true-false",
-                question: "قياس الأثر هو فقط عدّ المستفيدين والأنشطة المنفذة في نهاية المشروع",
-                options: [
-                    "صح",
-                    "خطأ"
-                ],
-                correct: 1,
-                explanation: "خطأ. قياس الأثر هو عملية منهجية شاملة لجمع وتحليل البيانات لفهم التغييرات الفعلية التي أحدثها المشروع على المستفيدين والمجتمع، وليس مجرد إحصاء أعداد. يتطلب قياس الأثر تحليلاً عميقاً للتغييرات النوعية والكمية."
-            },
-            {
-                id: 3,
-                type: "multiple",
-                question: "أي من هذه الأمثلة يمثل 'مخرجات' (Outputs) وليس 'نواتج' (Outcomes)؟",
-                options: [
-                    "تحسن أداء المتدربين في العمل",
-                    "50 متدرب حصل على شهادة تدريبية",
-                    "زيادة رضا العملاء عن الخدمة",
-                    "تطوير مهارات القيادة لدى المشاركين"
-                ],
-                correct: 1,
-                explanation: "المخرجات هي المنتجات والخدمات المباشرة والملموسة التي ننتجها من أنشطتنا (مثل عدد المتدربين، الشهادات، الورش). أما النواتج فهي التغييرات التي تحدث للمستفيدين نتيجة هذه المخرجات (مثل تحسن الأداء، تطوير المهارات)."
-            },
-            {
-                id: 4,
-                type: "multiple",
-                question: "في الإطار المنطقي، ما هو الترتيب الصحيح لبناء المشروع؟",
-                options: [
-                    "الأنشطة ← المخرجات ← النواتج ← الأثر",
-                    "الأثر المرغوب ← النواتج المطلوبة ← المخرجات ← الأنشطة",
-                    "المخرجات ← الأنشطة ← الأثر ← النواتج",
-                    "النواتج ← الأثر ← الأنشطة ← المخرجات"
-                ],
-                correct: 1,
-                explanation: "نبدأ بتحديد الأثر الذي نريد تحقيقه (الهدف الكبير)، ثم نحدد النواتج اللازمة لتحقيقه، ثم المخرجات المطلوبة، وأخيراً نصمم الأنشطة التي ستنتج هذه المخرجات. هذا النهج العكسي يضمن أن كل خطوة مرتبطة بالهدف النهائي."
-            },
-            {
-                id: 5,
-                type: "multiple",
-                question: "ما الذي يميز 'الأثر' (Impact) عن 'النواتج' (Outcomes)؟",
-                options: [
-                    "الأثر أسهل في القياس من النواتج",
-                    "الأثر يحدث بسرعة أكبر من النواتج",
-                    "الأثر تغيير جذري طويل المدى على مستوى أوسع من المستفيدين المباشرين",
-                    "الأثر تحت سيطرتنا المباشرة أكثر من النواتج"
-                ],
-                correct: 2,
-                explanation: "الأثر يتميز بأنه تغيير جذري طويل المدى (عادة سنوات) ويؤثر على مستوى أوسع من المستفيدين المباشرين أو المجتمع ككل. بينما النواتج تكون تغييرات قصيرة إلى متوسطة المدى للمستفيدين المباشرين."
-            },
-            {
-                id: 6,
-                type: "true-false",
-                question: "معايير SMART للمؤشرات تعني: محدد، قابل للقياس، قابل للتحقق، ذو صلة، ومحدد بزمن",
-                options: [
-                    "صح",
-                    "خطأ"
-                ],
-                correct: 0,
-                explanation: "صح. SMART هي اختصار لخمسة معايير أساسية لصياغة المؤشرات الجيدة: Specific (محدد بالكم والجودة والفئة المستهدفة)، Measurable (قابل للقياس بدقة)، Achievable (قابل للتحقيق ضمن الموارد المتاحة)، Relevant (ذو صلة بالتغيير المراد)، Time-bounded (محدد بإطار زمني واضح)."
-            },
-            {
-                id: 7,
-                type: "multiple",
-                question: "أي من هذه المؤشرات يعتبر 'مؤشر كمي'؟",
-                options: [
-                    "مستوى رضا المستفيدين عن الخدمة",
-                    "مدى تحسن قدرة المعلمين على التطبيق",
-                    "نسبة الحضور في البرنامج التدريبي",
-                    "درجة وعي الشباب بالمشاركة المجتمعية"
-                ],
-                correct: 2,
-                explanation: "المؤشر الكمي يقيس الكميات والأعداد بشكل رقمي دقيق. 'نسبة الحضور' هي مؤشر كمي لأنها تُعبر بنسبة مئوية أو رقم. أما بقية الخيارات فهي مؤشرات نوعية تقيس الآراء والتصورات والمستويات النوعية."
-            },
-            {
-                id: 8,
-                type: "multiple",
-                question: "ما هي الفائدة الأساسية لاستخدام نظرية التغيير في المشاريع؟",
-                options: [
-                    "تقليل ميزانية المشروع",
-                    "فهم كيف سيحدث التغيير المرغوب والربط المنطقي بين الأنشطة والأثر",
-                    "تسريع تنفيذ الأنشطة",
-                    "تقليل عدد أصحاب المصلحة"
-                ],
-                correct: 1,
-                explanation: "نظرية التغيير تساعدنا على فهم 'كيف' سيحدث التغيير من خلال إظهار الروابط السببية بين ما نفعله (الأنشطة) وما ننتجه (المخرجات) والتغييرات التي نحدثها (النواتج والأثر). هذا الفهم يحسن التخطيط والتنفيذ والقياس."
-            },
-            {
-                id: 9,
-                type: "true-false",
-                question: "المؤشرات غير المباشرة تقيس التغيير من خلال فحص علامات بديلة مقبولة عموماً",
-                options: [
-                    "صح",
-                    "خطأ"
-                ],
-                correct: 0,
-                explanation: "صح. المؤشرات غير المباشرة (Proxy Indicators) تستخدم عندما يصعب قياس الشيء مباشرة، فنقيس علامات أخرى مرتبطة به. مثلاً: لقياس الأمان في حي، نقيس عدد الحدائق المستخدمة مساءً كمؤشر غير مباشر بدلاً من قياس الأمان مباشرة."
-            },
-            {
-                id: 10,
-                type: "multiple",
-                question: "في أي مرحلة من دورة حياة المشروع يجب بناء الإطار المنطقي؟",
-                options: [
-                    "مرحلة الإغلاق",
-                    "مرحلة التنفيذ",
-                    "مرحلة التخطيط",
-                    "بعد انتهاء المشروع"
-                ],
-                correct: 2,
-                explanation: "الإطار المنطقي يُبنى في مرحلة التخطيط قبل بدء التنفيذ. يساعد في تحديد النتائج المتوقعة والمؤشرات وأدوات القياس منذ البداية، مما يسهل المتابعة والتقييم أثناء وبعد التنفيذ."
-            },
-            {
-                id: 11,
-                type: "multiple",
-                question: "ما هي أفضل ممارسة لتحديد المؤشرات في الإطار المنطقي؟",
-                options: [
-                    "استخدام أكبر عدد ممكن من المؤشرات",
-                    "التركيز على المؤشرات الكمية فقط",
-                    "دمج مؤشرات كمية ونوعية ذات صلة وقابلة للقياس",
-                    "استخدام مؤشرات عامة تناسب أي مشروع"
-                ],
-                correct: 2,
-                explanation: "أفضل ممارسة هي استخدام مزيج متوازن من المؤشرات الكمية (للأرقام) والنوعية (للجودة والتصورات)، بحيث تكون محددة للمشروع، قابلة للقياس عملياً، وذات صلة مباشرة بالنتائج المستهدفة. الجودة أهم من الكمية."
-            },
-            {
-                id: 12,
-                type: "true-false",
-                question: "خط الأساس (Baseline) هو القياس الأولي للوضع قبل بدء المشروع",
-                options: [
-                    "صح",
-                    "خطأ"
-                ],
-                correct: 0,
-                explanation: "صح. خط الأساس هو قياس الوضع الحالي قبل بدء تنفيذ المشروع أو التدخل. يستخدم كنقطة مرجعية لمقارنة التغييرات والتقدم المحرز بعد التنفيذ، ويساعد في تحديد مدى تحقق النتائج المستهدفة."
-            },
-            {
-                id: 13,
-                type: "multiple",
-                question: "أي مما يلي يعتبر 'ناتج' (Outcome) وليس 'مخرج' (Output)؟",
-                options: [
-                    "إصدار 100 كتيب توعوي",
-                    "تنفيذ 5 ورش عمل تدريبية",
-                    "زيادة وعي المجتمع بأهمية التطوع",
-                    "إنشاء منصة إلكترونية جديدة"
-                ],
-                correct: 2,
-                explanation: "زيادة الوعي هي ناتج لأنها تمثل تغيير حدث للمستفيدين (تغير في المعرفة أو السلوك). بينما الكتيبات والورش والمنصة هي مخرجات (منتجات ملموسة). النواتج تجيب على 'ما التغيير الذي حدث؟' بينما المخرجات تجيب على 'ماذا أنتجنا؟'"
-            },
-            {
-                id: 14,
-                type: "multiple",
-                question: "ما الغرض الرئيسي من تحليل البيانات في قياس الأثر؟",
-                options: [
-                    "طباعة التقارير بجودة عالية",
-                    "وضع البيانات وتحويلها إلى معلومات قابلة للاستخدام في اتخاذ القرارات",
-                    "جمع أكبر عدد ممكن من الاستبانات",
-                    "إرسال النتائج للممولين فقط"
-                ],
-                correct: 1,
-                explanation: "الهدف الأساسي من تحليل البيانات هو تحويل البيانات الخام إلى معلومات ذات معنى تساعد في فهم التقدم المحرز واتخاذ قرارات مستنيرة لتحسين المشروع. التحليل الجيد يكشف الأنماط ويقدم رؤى قيمة للتطوير."
-            },
-            {
-                id: 15,
-                type: "multiple",
-                question: "ماذا يجب أن يحدث في مرحلة الإغلاق للمشروع؟",
-                options: [
-                    "وضع الإطار المنطقي",
-                    "بناء أدوات جمع البيانات",
-                    "إصدار تقارير قياس النتائج والأثر وتوثيق الدروس المستفادة",
-                    "تحديد نظرية التغيير"
-                ],
-                correct: 2,
-                explanation: "مرحلة الإغلاق هي المرحلة النهائية حيث نقيم النتائج والأثر الفعلي، نقارنه بالمستهدفات، نوثق الدروس المستفادة والممارسات الجيدة، ونشارك التقارير النهائية مع أصحاب المصلحة. هذا يساعد في التعلم المؤسسي وتحسين المشاريع المستقبلية."
-            }
-        ];
 
-        // ===== متغيرات التطبيق =====
         let currentQuestionIndex = 0;
-        let userAnswers = [];
         let score = 0;
-        let quizStarted = false;
+        let userAnswers = [];
         let employeeName = '';
         let startTime = null;
         let endTime = null;
+        let quizStarted = false;
 
-        // ===== وظائف التطبيق =====
-        
+        // بيانات الأسئلة الـ 25
+        const questions = [
+            {
+                id: 1,
+                category: "المفاهيم الأساسية",
+                question: "من هم \"أصحاب المصلحة\" في سياق المشاركة المجتمعية؟",
+                options: [
+                    "أ. الجمعيات الأهلية والقطاع غير الربحي",
+                    "ب. الجهات الحكومية المسؤولة عن التطوع",
+                    "ج. المتطوعون المسجلون في منصة العمل التطوعي",
+                    "د. الأفراد والجهات المؤثرة والمتأثرة بالمشاركة المجتمعية"
+                ],
+                correct: 3,
+                explanation: "أصحاب المصلحة هم جميع الأفراد والجهات (صناع القرار، الأسر، المؤثرين، الطلاب، القطاعات المختلفة) الذين يؤثرون أو يتأثرون بالمشاركة المجتمعية."
+            },
+            {
+                id: 2,
+                category: "المفاهيم الأساسية",
+                question: "ما الفرق الجوهري بين \"المخرج (Output)\" و\"النتيجة (Outcome)\"؟",
+                options: [
+                    "أ. المخرج ما ينتجه المشروع مباشرة، والنتيجة هي التغيير الذي يحدث لأصحاب المصلحة",
+                    "ب. المخرج للمستفيدين المباشرين، والنتيجة للمستفيدين غير المباشرين",
+                    "ج. المخرج قصير المدى، والنتيجة طويلة المدى فقط",
+                    "د. لا يوجد فرق، كلاهما يعني نفس الشيء"
+                ],
+                correct: 0,
+                explanation: "المخرج مثل: عدد الورش المنفذة. النتيجة مثل: معلمون قدوات ممارسون للتطوع (التغيير الفعلي)."
+            },
+            {
+                id: 3,
+                category: "المفاهيم الأساسية",
+                question: "جهة حكومية طورت لائحة تنظيمية جديدة لتسهيل تأسيس الجمعيات الأهلية. هذا الإجراء يندرج تحت نتيجة:",
+                options: [
+                    "أ. قطاع حكومي يطور سياسات وأنظمة تزيد الدافعية للمشاركة",
+                    "ب. قطاع غير ربحي ممكّن للمجتمع",
+                    "ج. صناع قرار قدوات وداعمين",
+                    "د. زيادة الكيانات المساهمة في العمل التطوعي"
+                ],
+                correct: 0,
+                explanation: "تطوير اللوائح والأنظمة التنظيمية هو من نتائج القطاع الحكومي الذي يسعى لتسهيل وتحفيز المشاركة."
+            },
+            {
+                id: 4,
+                category: "ربط النتائج بالمؤشرات",
+                question: "في سياق نظرية التغيير، أي من المؤشرات التالية يعكس \"زيادة التبني لدى صناع القرار لأنماط المشاركة المجتمعية المختلفة\" وليس فقط \"ممارستهم لها\"؟",
+                options: [
+                    "أ. عدد صناع القرار الذين شاركوا بأنشطة تطوعية",
+                    "ب. عدد صناع القرار الذين اتخذوا قرارات لتفعيل المشاركة المجتمعية",
+                    "ج. عدد صناع القرار الذين تحدثوا عنها في الإعلام",
+                    "د. عدد الشراكات التي أبرموها مع مؤسسات تعليمية"
+                ],
+                correct: 1,
+                explanation: "القرار المؤسسي يعكس القناعة الفكرية والسياسية بالتبني والمشاركة، وليس فقط السلوك الفردي."
+            },
+            {
+                id: 5,
+                category: "ربط النتائج بالمؤشرات",
+                question: "لقياس نتيجة \"أسر داعمة وموجهة للمشاركة المجتمعية والعمل التطوعي باعتباره قيمة أساسية من قيم المجتمع والأسرة\"، أي من المؤشرات التالية الأنسب؟",
+                options: [
+                    "أ. عدد أولياء الأمور المستفيدين من أنشطة تعزيز الوعي بالمشاركة المجتمعية",
+                    "ب. عدد الطلاب المشاركين في الأنشطة التطوعية",
+                    "ج. نسبة المدارس التي فعّلت برامج توعية الأسر",
+                    "د. عدد الشراكات بين المدارس والأسر"
+                ],
+                correct: 0,
+                explanation: "المؤشر يجب أن يقيس الأسر مباشرة (عدد المستفيدين)، وليس الأنشطة أو الطلاب."
+            },
+            {
+                id: 6,
+                category: "ربط النتائج بالمؤشرات",
+                question: "مشروع يستهدف \"قطاع تعليمي يعزز مفاهيم المشاركة المجتمعية من خلال مناهج وأنشطة صفية ولاصفية جاذبة ومحفزة\". أي مؤشر يقيس تضمين هذه المفاهيم في المناهج؟",
+                options: [
+                    "أ. نسبة المفاهيم المتعلقة بالمشاركة المجتمعية في المناهج الدراسية",
+                    "ب. عدد المعلمين المدربين على التطوع",
+                    "ج. عدد الطلاب المشاركين في الأنشطة",
+                    "د. نسبة المدارس التي نفذت برامج توعية"
+                ],
+                correct: 0,
+                explanation: "المؤشر يقيس نسبة التضمين في المناهج، وهو يعكس نتيجة \"قطاع تعليمي معزز للمفاهيم\"."
+            },
+            {
+                id: 7,
+                category: "ربط النتائج بالمؤشرات",
+                question: "منصة رقمية أطلقت برنامجاً لتدريب 200 مؤثر على صناعة محتوى إيجابي عن المشاركة المجتمعية. ما المؤشر الذي يثبت تحقق النتيجة المستهدفة؟",
+                options: [
+                    "أ. عدد المؤثرين المشاركين في البرنامج التدريبي",
+                    "ب. نسبة رضا المؤثرين عن البرنامج",
+                    "ج. عدد المؤثرين الذين نشروا محتوى إعلامي عن المشاركة المجتمعية",
+                    "د. عدد ساعات التدريب المقدمة"
+                ],
+                correct: 2,
+                explanation: "المؤشر الصحيح يقيس الممارسة الفعلية (النشر)، وليس مجرد المشاركة في التدريب."
+            },
+            {
+                id: 8,
+                category: "ربط النتائج بالمؤشرات",
+                question: "مشروع حقق \"قطاع خاص داعم لتفعيل المشاركة المجتمعية ومحفز لمنسوبيه للمشاركة في القطاع غير الربحي\". ما المؤشر الأدق لقياس التحفيز؟",
+                options: [
+                    "أ. قيمة الدعم المقدم من القطاع الخاص",
+                    "ب. عدد الشراكات بين القطاعين",
+                    "ج. نسبة منسوبي القطاع الخاص المشاركين في العمل التطوعي",
+                    "د. عدد الشركات الداعمة للقطاع غير الربحي"
+                ],
+                correct: 2,
+                explanation: "التحفيز يُقاس بنسبة الممارسة الفعلية من الموظفين، وليس بعدد البرامج أو قيمة الدعم."
+            },
+            {
+                id: 9,
+                category: "ربط النتائج بالمؤشرات",
+                question: "مشروع حقق \"توثيق أثر المشاركة المجتمعية على شخصيات ومهارات الطلاب\". ما المؤشر الذي يثبت التوثيق؟",
+                options: [
+                    "أ. عدد الطلاب المشاركين في التطوع",
+                    "ب. نسبة الطلاب المسجلة مهاراتهم في السجل المهاري",
+                    "ج. عدد المهارات المكتسبة من التطوع",
+                    "د. نسبة رضا الطلاب عن الأنشطة"
+                ],
+                correct: 1,
+                explanation: "توثيق الأثر يُقاس بالتسجيل الفعلي في السجل المهاري، وليس بعدد المشاركين فقط."
+            },
+            {
+                id: 10,
+                category: "ربط النتائج بالمؤشرات",
+                question: "هيئة حكومية أصدرت 3 قرارات وزارية لتسهيل إجراءات تأسيس الجمعيات وتفعيل الشراكات. أي مؤشر مرتبط بنظرية التغيير يوثق ذلك؟",
+                options: [
+                    "أ. نسبة تنفيذ القرارات الصادرة",
+                    "ب. عدد الجمعيات المؤسسة بعد صدور القرارات",
+                    "ج. عدد القرارات الاستراتيجية الصادرة لتحفيز المشاركة المجتمعية",
+                    "د. نسبة رضا القطاع غير الربحي عن القرارات"
+                ],
+                correct: 2,
+                explanation: "النتيجة \"صناعة قرارات استراتيجية\" تُقاس بعدد القرارات الصادرة، وليس بأثرها المباشر."
+            },
+            {
+                id: 11,
+                category: "ربط النتائج بالمؤشرات",
+                question: "مؤسسة تعليمية سجلت 1,200 طالب في منصة العمل التطوعي وأكمل 900 منهم 10 ساعات تطوعية. أي مؤشر مرتبط بنظرية التغيير يعكس الممارسة الفعلية؟",
+                options: [
+                    "أ. عدد الفرص التطوعية المتاحة للطلاب",
+                    "ب. عدد الساعات التطوعية المنفذة",
+                    "ج. عدد الطلاب المسجلين في منصة العمل التطوعي",
+                    "د. نسبة الطلاب الذين أكملوا الساعات التطوعية"
+                ],
+                correct: 2,
+                explanation: "التسجيل في المنصة يعكس الممارسة، لكن بعض المشاريع قد تستخدم مؤشرات إضافية مثل عدد الساعات."
+            },
+            {
+                id: 12,
+                category: "ربط النتائج بالمؤشرات",
+                question: "مشروع يستهدف القطاع غير الربحي. أي نتيجة تعكس التوسع الكمي والنوعي؟",
+                options: [
+                    "أ. رفع كفاءة إدارة التطوع",
+                    "ب. قطاع غير ربحي ممكّن للمجتمع",
+                    "ج. زيادة عدد المتطوعين في القطاع",
+                    "د. زيادة الكيانات المساهمة في تفعيل العمل التطوعي كماً ونوعاً"
+                ],
+                correct: 3,
+                explanation: "التوسع الكمي والنوعي يُقاس بزيادة عدد الكيانات المساهمة وتنوعها."
+            },
+            {
+                id: 13,
+                category: "اختيار المؤشر الأنسب",
+                question: "النتيجة: زيادة الفرص التي تساهم في تنمية مهارات وشخصيات الطلاب\n\nأي هذه المؤشرات تناسب النتيجة؟",
+                options: [
+                    "أ. عدد المواد المرجعية المنشورة لزيادة مهارات الطلاب",
+                    "ب. عدد الجهات التي فعّلت فرص تطوعية مهارية للطلاب",
+                    "ج. عدد الفرص التطوعية المخصصة للطلاب",
+                    "د. نسبة رضا الطلاب عن الفرص المتاحة"
+                ],
+                correct: 2,
+                explanation: "\"زيادة الفرص\" تُقاس مباشرة بعدد الفرص المتاحة، وليس بالمواد المرجعية أو الجهات المفعّلة."
+            },
+            {
+                id: 14,
+                category: "اختيار المؤشر الأنسب",
+                question: "النتيجة: تطوير سياسات وأنظمة حكومية تزيد الدافعية للمشاركة المجتمعية\n\nأي هذه المؤشرات تناسب النتيجة؟",
+                options: [
+                    "أ. عدد السياسات والأنظمة المطورة لزيادة الدافعية للمشاركة المجتمعية",
+                    "ب. عدد الجهات الحكومية التي طبقت السياسات الجديدة",
+                    "ج. نسبة رضا المستفيدين عن السياسات المطورة",
+                    "د. عدد المتطوعين بعد تطبيق السياسات الجديدة"
+                ],
+                correct: 0,
+                explanation: "المؤشر الأول يقيس التطوير الفعلي للسياسات (المخرج المباشر). الخيارات الأخرى تقيس التطبيق أو الأثر اللاحق."
+            },
+            {
+                id: 15,
+                category: "اختيار المؤشر الأنسب",
+                question: "النتيجة: رواج مفاهيم التطوع والقطاع غير الربحي داخل القطاع الخاص\n\nأي هذه المؤشرات تناسب النتيجة؟",
+                options: [
+                    "أ. عدد الشراكات بين القطاع الخاص والجمعيات الأهلية",
+                    "ب. قيمة الدعم المقدم من الشركات للقطاع غير الربحي",
+                    "ج. نسبة الشركات التي أطلقت برامج مسؤولية مجتمعية",
+                    "د. عدد موظفي القطاع الخاص المتطوعين"
+                ],
+                correct: 2,
+                explanation: "الرواج يعني الانتشار والتبني المؤسسي (إطلاق برامج). الخيارات الأخرى تقيس الممارسة الفردية أو الدعم المالي."
+            },
+            {
+                id: 16,
+                category: "اختيار المؤشر الأنسب",
+                question: "النتيجة: زيادة المحتوى الإيجابي الداعم للمشاركة المجتمعية\n\nأي هذه المؤشرات تناسب النتيجة؟",
+                options: [
+                    "أ. عدد الحملات الإعلامية المنفذة عن المشاركة",
+                    "ب. عدد المتابعين للمؤثرين الناشطين",
+                    "ج. عدد المؤثرين الذين نشروا محتوى إعلامي عن المشاركة المجتمعية",
+                    "د. نسبة التفاعل (إعجابات ومشاركات) على المحتوى المنشور"
+                ],
+                correct: 2,
+                explanation: "المؤشر الأول يقيس المحتوى المنشور مباشرة (المخرج). الخيارات الأخرى تقيس مدى الانتشار والتأثير."
+            },
+            {
+                id: 17,
+                category: "من المؤشر إلى النشاط",
+                question: "النتيجة: قطاع خاص داعم لتفعيل المشاركة المجتمعية ومحفز لمنسوبيه للمشاركة في القطاع غير الربحي\n\nالمؤشر: عدد المستفيدين من الأنشطة التمكينية\n\nما النشاط الذي يقيسه هذا المؤشر؟",
+                options: [
+                    "أ. الحملات الإعلامية الموجهة لموظفي القطاع الخاص",
+                    "ب. الورش التمكينية المقدمة لموظفي القطاع الخاص",
+                    "ج. الشراكات الموقعة بين الشركات والجمعيات الأهلية",
+                    "د. برامج التطوع المؤسسي التي نفذتها الشركات"
+                ],
+                correct: 1,
+                explanation: "المؤشر يقيس عدد المستفيدين من الأنشطة التمكينية - والورش التمكينية هي النشاط الذي يُنتج هذا المخرج مباشرة."
+            },
+            {
+                id: 18,
+                category: "من المؤشر إلى النشاط",
+                question: "النتيجة: صناع قرار قدوات وداعمين لأنماط المشاركة المجتمعية\n\nالمؤشر: عدد صناع القرار الممارسين للعمل التطوعي\n\nما النشاط الذي يقيسه هذا المؤشر؟",
+                options: [
+                    "أ. ورش التوعية الموجهة لصناع القرار عن أهمية التطوع",
+                    "ب. المبادرات التطوعية التي شارك فيها صناع القرار بأنفسهم",
+                    "ج. القرارات الاستراتيجية الصادرة لدعم التطوع",
+                    "د. اللقاءات التعريفية بين صناع القرار والقطاع غير الربحي"
+                ],
+                correct: 1,
+                explanation: "المؤشر يقيس الممارسة الفعلية للتطوع، والمبادرات التطوعية هي النشاط الذي يُمكّن صناع القرار من الممارسة."
+            },
+            {
+                id: 19,
+                category: "من المؤشر إلى النشاط",
+                question: "النتيجة: قطاع تعليمي يعزز مفاهيم المشاركة المجتمعية\n\nالمؤشر: نسبة المفاهيم المتعلقة بالمشاركة المجتمعية في المناهج الدراسية\n\nما النشاط الذي يقيسه هذا المؤشر؟",
+                options: [
+                    "أ. الأنشطة اللاصفية التطوعية المنفذة في المدارس",
+                    "ب. مراجعة وتطوير المناهج الدراسية لتضمين مفاهيم المشاركة",
+                    "ج. تدريب المعلمين على تدريس مفاهيم المشاركة المجتمعية",
+                    "د. إطلاق حملات توعوية داخل المدارس عن التطوع"
+                ],
+                correct: 1,
+                explanation: "المؤشر يقيس نسبة التضمين في المناهج، والنشاط المباشر هو مراجعة وتطوير المناهج نفسها."
+            },
+            {
+                id: 20,
+                category: "من المؤشر إلى النشاط",
+                question: "النتيجة: تبني المؤثرين إعلامياً للقضايا المجتمعية ذات العلاقة بالمشاركة المجتمعية وممارستها بشكل مستمر\n\nالمؤشر: عدد المؤثرين الذين نشروا محتوى إعلامي عن المشاركة المجتمعية\n\nما النشاط الذي يقيسه هذا المؤشر؟",
+                options: [
+                    "أ. ورش بناء القدرات للمؤثرين على صناعة المحتوى",
+                    "ب. حملة تحفيزية للمؤثرين لنشر محتوى عن المشاركة المجتمعية",
+                    "ج. لقاءات تعريفية بين المؤثرين ومؤسسات القطاع غير الربحي",
+                    "د. منصة رقمية لعرض المحتوى الإيجابي عن التطوع"
+                ],
+                correct: 1,
+                explanation: "المؤشر يقيس النشر الفعلي للمحتوى، والحملة التحفيزية هي النشاط الذي يدفع المؤثرين للنشر."
+            },
+            {
+                id: 21,
+                category: "المطابقة",
+                question: "طابق كل نتيجة مع المؤشر المناسب - فئة الطلاب\n\nالنتائج:\n1. طلاب ممارسون لأنماط المشاركة المجتمعية\n2. توثيق أثر المشاركة المجتمعية على شخصيات ومهارات الطلاب\n3. زيادة الفرص التي تساهم في تنمية مهارات وشخصيات الطلاب\n\nاختر الترتيب الصحيح للمؤشرات المناسبة:",
+                options: [
+                    "أ. (1) عدد الطلاب المسجلين في منصة العمل التطوعي - (2) نسبة الطلاب المسجلة مهاراتهم في السجل المهاري - (3) عدد الفرص التطوعية المخصصة للطلاب",
+                    "ب. (1) نسبة الطلاب المسجلة مهاراتهم في السجل المهاري - (2) عدد الفرص التطوعية المخصصة للطلاب - (3) عدد الطلاب المسجلين في منصة العمل التطوعي",
+                    "ج. (1) عدد الفرص التطوعية المخصصة للطلاب - (2) عدد الطلاب المسجلين في منصة العمل التطوعي - (3) نسبة الطلاب المسجلة مهاراتهم في السجل المهاري",
+                    "د. (1) نسبة الطلاب المسجلة مهاراتهم في السجل المهاري - (2) عدد الطلاب المسجلين في منصة العمل التطوعي - (3) عدد الفرص التطوعية المخصصة للطلاب"
+                ],
+                correct: 0,
+                explanation: "الممارسة الفعلية تُقاس بالتسجيل في المنصة، والتوثيق بالسجل المهاري، وزيادة الفرص بعدد الفرص المتاحة."
+            },
+            {
+                id: 22,
+                category: "المطابقة",
+                question: "طابق كل نتيجة مع المؤشر المناسب - فئات متنوعة\n\nالنتائج:\n1. صناع قرار قدوات وداعمون للمشاركة المجتمعية\n2. قطاع تعليمي يعزز مفاهيم المشاركة من خلال مناهج وأنشطة جاذبة\n3. مؤثرون يتبنون إعلامياً قضايا المشاركة المجتمعية\n\nاختر الترتيب الصحيح للمؤشرات المناسبة:",
+                options: [
+                    "أ. (1) عدد صناع القرار الممارسين للعمل التطوعي - (2) نسبة المفاهيم المتعلقة بالمشاركة المجتمعية في المناهج الدراسية - (3) عدد المؤثرين الذين نشروا محتوى إعلامي عن المشاركة المجتمعية",
+                    "ب. (1) نسبة المفاهيم المتعلقة بالمشاركة المجتمعية في المناهج الدراسية - (2) عدد المؤثرين الذين نشروا محتوى إعلامي عن المشاركة المجتمعية - (3) عدد صناع القرار الممارسين للعمل التطوعي",
+                    "ج. (1) عدد المؤثرين الذين نشروا محتوى إعلامي عن المشاركة المجتمعية - (2) عدد صناع القرار الممارسين للعمل التطوعي - (3) نسبة المفاهيم المتعلقة بالمشاركة المجتمعية في المناهج الدراسية",
+                    "د. (1) عدد صناع القرار الممارسين للعمل التطوعي - (2) عدد المؤثرين الذين نشروا محتوى إعلامي عن المشاركة المجتمعية - (3) نسبة المفاهيم المتعلقة بالمشاركة المجتمعية في المناهج الدراسية"
+                ],
+                correct: 0,
+                explanation: "صناع القرار القدوات يُقاسون بممارستهم الشخصية، القطاع التعليمي بنسبة تضمين المفاهيم، والمؤثرون بعدد من نشروا المحتوى."
+            },
+            {
+                id: 23,
+                category: "المطابقة",
+                question: "طابق كل نتيجة مع المؤشر المناسب - القطاعات\n\nالنتائج:\n1. قطاع حكومي يطور سياسات وأنظمة تزيد الدافعية للمشاركة\n2. قطاع خاص محفز لمنسوبيه وداعم للقطاع غير الربحي\n3. قطاع غير ربحي ممكّن للمجتمع من المساهمة الفاعلة\n\nاختر الترتيب الصحيح للمؤشرات المناسبة:",
+                options: [
+                    "أ. (1) عدد السياسات والأنظمة المطورة لزيادة الدافعية للمشاركة - (2) نسبة منسوبي القطاع الخاص المشاركين في العمل التطوعي - (3) نسبة الأفراد المستفيدين من خدمات القطاع غير الربحي",
+                    "ب. (1) نسبة منسوبي القطاع الخاص المشاركين في العمل التطوعي - (2) نسبة الأفراد المستفيدين من خدمات القطاع غير الربحي - (3) عدد السياسات والأنظمة المطورة لزيادة الدافعية للمشاركة",
+                    "ج. (1) نسبة الأفراد المستفيدين من خدمات القطاع غير الربحي - (2) عدد السياسات والأنظمة المطورة لزيادة الدافعية للمشاركة - (3) نسبة منسوبي القطاع الخاص المشاركين في العمل التطوعي",
+                    "د. (1) عدد السياسات والأنظمة المطورة لزيادة الدافعية للمشاركة - (2) نسبة الأفراد المستفيدين من خدمات القطاع غير الربحي - (3) نسبة منسوبي القطاع الخاص المشاركين في العمل التطوعي"
+                ],
+                correct: 0,
+                explanation: "القطاع الحكومي يُقاس بعدد السياسات المطورة، القطاع الخاص بنسبة منسوبيه المتطوعين، والقطاع غير الربحي بنسبة المستفيدين من خدماته."
+            },
+            {
+                id: 24,
+                category: "صح/خطأ",
+                question: "يمكن قياس نتيجة \"أسر داعمة وموجهة للمشاركة المجتمعية والعمل التطوعي باعتباره قيمة أساسية من قيم المجتمع والأسرة\" من خلال مؤشر \"عدد الطلاب المتطوعين\".",
+                options: [
+                    "أ. صحيح",
+                    "ب. خطأ"
+                ],
+                correct: 1,
+                explanation: "المؤشر الصحيح هو \"عدد أولياء الأمور المستفيدين من أنشطة التوعية\"، لأنه يقيس الأسر مباشرة وليس الطلاب."
+            },
+            {
+                id: 25,
+                category: "صح/خطأ",
+                question: "مؤشر \"نسبة المعلمين الممارسين للتطوع\" يقيس نتيجة \"قطاع تعليمي يعزز مفاهيم المشاركة المجتمعية من خلال مناهج وأنشطة صفية ولاصفية جاذبة ومحفزة\".",
+                options: [
+                    "أ. صحيح",
+                    "ب. خطأ"
+                ],
+                correct: 1,
+                explanation: "هذا المؤشر يقيس \"معلمون قدوات\"، بينما نتيجة \"قطاع تعليمي\" تُقاس بـ\"نسبة المفاهيم في المناهج\"."
+            }
+        ];
+
         function startQuiz() {
-            const nameInput = document.getElementById('employeeName');
-            const nameError = document.getElementById('nameError');
-            
-            employeeName = nameInput.value.trim();
+            employeeName = document.getElementById('employeeName').value.trim();
             
             if (!employeeName) {
-                nameError.style.display = 'block';
-                nameInput.style.borderColor = '#dc3545';
+                alert('الرجاء إدخال اسمك للمتابعة');
                 return;
             }
-            
-            nameError.style.display = 'none';
-            nameInput.style.borderColor = '#e0e0e0';
-            
+
+            quizStarted = true;
+            startTime = new Date();
+
             document.getElementById('startScreen').style.display = 'none';
             document.getElementById('progressContainer').style.display = 'block';
-            document.getElementById('employeeNameDisplay').textContent = employeeName;
-            
-            startTime = new Date();
-            quizStarted = true;
-            
+            document.getElementById('totalQuestions').textContent = questions.length;
+
             renderQuestions();
             showQuestion(0);
         }
@@ -727,6 +952,7 @@
                 questionDiv.id = `question-${index}`;
 
                 questionDiv.innerHTML = `
+                    <div class="category-badge">${q.category}</div>
                     <div class="question-number">السؤال ${index + 1} من ${questions.length}</div>
                     <div class="question-text">${q.question}</div>
                     <div class="options" id="options-${index}">
@@ -831,7 +1057,7 @@
             document.getElementById('loadingScreen').classList.add('show');
 
             const percentage = Math.round((score / questions.length) * 100);
-            const duration = Math.round((endTime - startTime) / 1000 / 60); // بالدقائق
+            const duration = Math.round((endTime - startTime) / 1000 / 60);
 
             const data = {
                 timestamp: new Date().toISOString(),
@@ -844,18 +1070,19 @@
             };
 
             try {
-                // محاولة الإرسال إلى Google Sheets
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                // بسبب no-cors، لن نحصل على رد واضح، لذا نفترض النجاح
-                showResults(true);
+                if (GOOGLE_SCRIPT_URL) {
+                    const response = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    showResults(true);
+                } else {
+                    showResults(false);
+                }
             } catch (error) {
                 console.error('خطأ في حفظ البيانات:', error);
                 showResults(false);
@@ -891,11 +1118,16 @@
                 saveStatus.textContent = '✓ تم حفظ نتائجك بنجاح في قاعدة البيانات';
                 saveStatus.style.color = '#28a745';
             } else {
-                saveStatus.textContent = '⚠️ حدث خطأ في حفظ النتائج، لكن يمكنك مراجعة إجاباتك';
+                saveStatus.textContent = '⚠️ لم يتم تفعيل حفظ النتائج، لكن يمكنك مراجعة إجاباتك';
                 saveStatus.style.color = '#ff9800';
             }
 
             resultsDiv.classList.add('show');
+            
+            // عرض مراجعة الإجابات تلقائياً بعد ثانيتين
+            setTimeout(() => {
+                showReview();
+            }, 2000);
         }
 
         function showReview() {
@@ -908,6 +1140,7 @@
                 reviewItem.className = `review-item ${!answer.isCorrect ? 'wrong' : ''}`;
                 
                 reviewItem.innerHTML = `
+                    <div class="category-badge">${questions[index].category}</div>
                     <div class="review-question">
                         <strong>السؤال ${index + 1}:</strong> ${answer.questionText}
                     </div>
@@ -946,7 +1179,6 @@
                 document.getElementById('progressContainer').style.display = 'none';
                 document.getElementById('questionsContainer').innerHTML = '';
                 
-                // مسح الاسم للسماح بإدخال بيانات جديدة
                 document.getElementById('employeeName').value = '';
             }
         }
