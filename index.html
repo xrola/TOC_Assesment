@@ -1166,20 +1166,7 @@
 
         function restartQuiz() {
             if (confirm('هل أنت متأكد من إعادة التقييم؟ سيتم حفظ نتيجة جديدة.')) {
-                currentQuestionIndex = 0;
-                userAnswers = [];
-                score = 0;
-                quizStarted = false;
-                startTime = null;
-                endTime = null;
-
-                document.getElementById('results').classList.remove('show');
-                document.getElementById('reviewSection').style.display = 'none';
-                document.getElementById('startScreen').style.display = 'block';
-                document.getElementById('progressContainer').style.display = 'none';
-                document.getElementById('questionsContainer').innerHTML = '';
-                
-                document.getElementById('employeeName').value = '';
+                location.reload();
             }
         }
     </script>
