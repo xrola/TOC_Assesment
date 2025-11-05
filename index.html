@@ -785,6 +785,7 @@
         let startTime = null;
         let endTime = null;
         let quizStarted = false;
+        let questionAnswered = {}; // لتتبع الأسئلة المُجاب عليها
 
         // بيانات الأسئلة الـ 25
         const questions = [
@@ -1264,6 +1265,10 @@
         }
 
         function selectOption(questionIndex, optionIndex) {
+            // منع الإجابة إذا كان السؤال تم الإجابة عليه مسبقاً
+            if (questionAnswered[questionIndex]) {
+                return;
+            }
             const options = document.querySelectorAll(`#options-${questionIndex} .option`);
             const feedback = document.getElementById(`feedback-${questionIndex}`);
             const feedbackIcon = document.getElementById(`feedbackIcon-${questionIndex}`);
@@ -1299,6 +1304,15 @@
             if (isCorrect) score++;
 
             nextBtn.disabled = false;
+            
+            // وضع علامة أن السؤال تمت الإجابة عليه
+            questionAnswered[questionIndex] = true;
+
+            // تعطيل جميع الخيارات نهائياً
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                opt.style.cursor = 'not-allowed';
+            });
         }
 
         function nextQuestion() {
@@ -1472,6 +1486,7 @@
 
         
         // ===== دوال Drag and Drop =====
+        let draggedElement = null;
         let draggedElement = null;
         let matchingAnswers = {}; // لحفظ إجابات المطابقة
 
