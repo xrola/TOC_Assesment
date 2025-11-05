@@ -1064,7 +1064,7 @@
                     "نسبة الطلاب المسجلة مهاراتهم في السجل المهاري",
                     "عدد الفرص التطوعية المخصصة للطلاب"
                 ],
-                correctMatches: {0: 0, 1: 2, 2: 1}, // النتيجة 0 تطابق المؤشر 0، وهكذا
+                correctMatches: {0: 0, 1: 1, 2: 2}, // النتيجة 0 تطابق المؤشر 0، وهكذا
                 explanation: "الممارسة الفعلية تُقاس بالتسجيل في المنصة، والتوثيق بالسجل المهاري، وزيادة الفرص بعدد الفرص المتاحة."
             },
             {
@@ -1082,7 +1082,7 @@
                     "نسبة المفاهيم المتعلقة بالمشاركة المجتمعية في المناهج الدراسية",
                     "عدد المؤثرين الذين نشروا محتوى إعلامي عن المشاركة المجتمعية"
                 ],
-                correctMatches: {0: 1, 1: 2, 2: 0},
+                correctMatches: {0: 0, 1: 1, 2: 2},
                 explanation: "صناع القرار القدوات يُقاسون بممارستهم الشخصية، القطاع التعليمي بنسبة تضمين المفاهيم، والمؤثرون بعدد من نشروا المحتوى."
             },
             {
@@ -1100,7 +1100,7 @@
                     "نسبة منسوبي القطاع الخاص المشاركين في العمل التطوعي",
                     "نسبة الأفراد المستفيدين من خدمات القطاع غير الربحي"
                 ],
-                correctMatches: {0: 1, 1: 0, 2: 2},
+                correctMatches: {0: 0, 1: 1, 2: 2},
                 explanation: "القطاع الحكومي يُقاس بعدد السياسات المطورة، القطاع الخاص بنسبة منسوبيه المتطوعين، والقطاع غير الربحي بنسبة المستفيدين من خدماته."
             },
             {
@@ -1269,6 +1269,7 @@
             if (questionAnswered[questionIndex]) {
                 return;
             }
+            
             const options = document.querySelectorAll(`#options-${questionIndex} .option`);
             const feedback = document.getElementById(`feedback-${questionIndex}`);
             const feedbackIcon = document.getElementById(`feedbackIcon-${questionIndex}`);
@@ -1307,7 +1308,7 @@
             
             // وضع علامة أن السؤال تمت الإجابة عليه
             questionAnswered[questionIndex] = true;
-
+            
             // تعطيل جميع الخيارات نهائياً
             options.forEach(opt => {
                 opt.style.pointerEvents = 'none';
@@ -1486,7 +1487,6 @@
 
         
         // ===== دوال Drag and Drop =====
-        let draggedElement = null;
         let draggedElement = null;
         let matchingAnswers = {}; // لحفظ إجابات المطابقة
 
